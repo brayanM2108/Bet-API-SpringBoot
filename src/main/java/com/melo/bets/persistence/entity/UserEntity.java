@@ -14,7 +14,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -42,19 +42,19 @@ public class User {
     private String document;
 
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
-    private List<Raffle> raffles;
+    private List<RaffleEntity> raffleEntities;
 
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
-    private List<Bet> bets;
+    private List<BetEntity> betEntities;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<RaffleParticipation> participations;
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private List<RaffleParticipationEntity> participations;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<BetPurchase> betPurchases;
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private List<BetPurchaseEntity> betPurchaseEntities;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Payment> payments;
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private List<PaymentEntity> paymentEntities;
 
 
 }

@@ -9,27 +9,24 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "compras_apuestas")
+@Table(name = "participaciones_rifas")
 @Getter
 @Setter
 @NoArgsConstructor
-public class BetPurchase {
-
+public class RaffleParticipationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private UUID id;
 
-    @Column(name = "fecha_compra")
-    private LocalDateTime purchaseDate = LocalDateTime.now();
-
     @ManyToOne
-    @JoinColumn(name = "apuesta_id", nullable = false)
-    private Bet bet;
+    @JoinColumn(name = "rifa_id", nullable = false)
+    private RaffleEntity raffleEntity;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
-    private User user;
+    private UserEntity userEntity;
 
-
+    @Column(name = "fecha_participacion", nullable = false)
+    private LocalDateTime participationDate = LocalDateTime.now();
 }

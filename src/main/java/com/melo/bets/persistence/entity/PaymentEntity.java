@@ -5,14 +5,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 @Entity
 @Table(name = "pagos")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Payment {
+public class PaymentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -32,6 +31,6 @@ public class Payment {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
-    private User user;
+    private UserEntity userEntity;
 
 }

@@ -14,7 +14,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Raffle {
+public class RaffleEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -40,8 +40,8 @@ public class Raffle {
 
     @ManyToOne
     @JoinColumn(name = "creador_id", nullable = false)
-    private User creator;
+    private UserEntity creator;
 
-    @OneToMany(mappedBy = "raffle", cascade = CascadeType.ALL)
-    private List<RaffleParticipation> participations;
+    @OneToMany(mappedBy = "raffleEntity", cascade = CascadeType.ALL)
+    private List<RaffleParticipationEntity> participations;
 }

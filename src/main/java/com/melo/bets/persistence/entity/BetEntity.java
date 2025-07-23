@@ -16,7 +16,7 @@ import java.util.UUID;
 @Setter
 @Getter
 @NoArgsConstructor
-public class Bet {
+public class BetEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -46,10 +46,10 @@ public class Bet {
 
     @ManyToOne
     @JoinColumn(name = "creador_id", nullable = false)
-    private User creator;
+    private UserEntity creator;
 
-    @OneToMany(mappedBy = "bet", cascade = CascadeType.ALL)
-    private List<BetPurchase> purchases;
+    @OneToMany(mappedBy = "betEntity", cascade = CascadeType.ALL)
+    private List<BetPurchaseEntity> purchases;
 
 
 }
