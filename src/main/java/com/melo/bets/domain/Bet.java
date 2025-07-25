@@ -1,11 +1,9 @@
 package com.melo.bets.domain;
 
-import com.melo.bets.persistence.entity.BetPurchaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -28,7 +26,5 @@ public class Bet {
 
     private BigDecimal price;
 
-    private User creator;
-
-    private List<BetPurchase> purchases;
+    private UUID userId;
 }

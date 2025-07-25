@@ -26,7 +26,7 @@ public class BetEntity {
     @Column(name = "titulo", nullable = false)
     private String title;
 
-    @Column(name = "descripcion", nullable = false)
+    @Column(name = "descripcion")
     private String description;
 
     @Column(name = "cuota", nullable = false)
@@ -48,8 +48,7 @@ public class BetEntity {
     @JoinColumn(name = "creador_id", nullable = false)
     private UserEntity creator;
 
-    @OneToMany(mappedBy = "betEntity", cascade = CascadeType.ALL)
-    private List<BetPurchaseEntity> purchases;
+
 
 
 }
