@@ -40,7 +40,7 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public User update(User user) {
+    public Optional <User> update(User user) {
         return null;
     }
 

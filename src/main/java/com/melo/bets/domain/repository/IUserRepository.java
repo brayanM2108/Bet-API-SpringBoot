@@ -14,7 +14,7 @@ public interface IUserRepository {
 
     User save(User user);
 
-    User update(User user);
+    Optional <User> update(User user);
 
     void delete(UUID id);
 }

@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
+
 import java.util.UUID;
 
 @Getter
@@ -25,7 +25,11 @@ public class Raffle {
 
     private String status;
 
-    private User creator;
+    private Integer numberOfTickets;
 
-    private List<RaffleParticipation> participations;
+    private UUID userId;
+
+
+
+
 }

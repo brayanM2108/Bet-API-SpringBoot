@@ -52,6 +52,17 @@ public class BetService {
         return betRepository.save(bet);
     }
 
+    public Optional<Bet> updateBet(Bet bet) {
+        {
+            if (betRepository.findById(bet.getId()).isEmpty()) {
+                return Optional.empty();
+            }
+
+            return betRepository.update(bet);
+        }
+
+    }
+
     public boolean deleteBet(UUID id) {
         if (getBet(id).isPresent()) {
             betRepository.delete(id);

@@ -43,9 +43,14 @@ public class BetRepository implements IBetRepository {
     }
 
     @Override
-    public Bet update(Bet bet) {
-        BetEntity betEntity = betMapper.toBetEntity(bet);
-        return betMapper.toBet(betCrudRepository.save(betEntity));
+    public Optional <Bet> update(Bet bet) {
+        Optional<BetEntity> existing = betCrudRepository.findById(bet.getId());
+        if (existing.isPresent()) {
+            BetEntity betEntity = betMapper.toBetEntity(bet);
+            betEntity.setCreator(existing.get().getCreator());
+            return Optional.of(betMapper.toBet(betCrudRepository.save(betEntity)));
+        }
+        return Optional.empty();
     }
 
 

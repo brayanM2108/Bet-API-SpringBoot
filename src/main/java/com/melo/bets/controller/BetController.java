@@ -35,6 +35,13 @@ public class BetController {
         return new ResponseEntity<>(betService.saveBet(bet), HttpStatus.CREATED);
     }
 
+    @PutMapping
+    public ResponseEntity<Bet> updateBet(@RequestBody Bet bet) {
+        return betService.updateBet(bet)
+                .map(updated -> new ResponseEntity<>(updated, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") UUID id) {
         return new ResponseEntity<>(this.betService.deleteBet(id)

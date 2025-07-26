@@ -14,7 +14,7 @@ public interface IBetRepository {
 
     Bet save(Bet bet);
 
-    Bet update(Bet bet);
+    Optional <Bet> update(Bet bet);
 
     void delete(UUID id);
 }

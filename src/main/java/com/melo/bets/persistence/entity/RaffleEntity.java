@@ -38,10 +38,12 @@ public class RaffleEntity {
     @Column(name = "estado", nullable = false)
     private String status;
 
+    @Column(name = "num_participantes", nullable = false)
+    private Integer numberOfTickets;
+
     @ManyToOne
     @JoinColumn(name = "creador_id", nullable = false)
     private UserEntity creator;
 
-    @OneToMany(mappedBy = "raffleEntity", cascade = CascadeType.ALL)
-    private List<RaffleParticipationEntity> participations;
+
 }
