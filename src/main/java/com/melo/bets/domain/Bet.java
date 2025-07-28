@@ -18,8 +18,6 @@ public class Bet {
 
     private BigDecimal odds;
 
-    private String event;
-
     private LocalDateTime date;
 
     private String status;
@@ -27,4 +25,6 @@ public class Bet {
     private BigDecimal price;
 
     private UUID userId;
+
+    private UUID competitionId;
 }

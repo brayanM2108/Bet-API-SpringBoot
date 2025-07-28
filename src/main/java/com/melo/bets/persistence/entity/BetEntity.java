@@ -32,9 +32,6 @@ public class BetEntity {
     @Column(name = "cuota", nullable = false)
     private BigDecimal odds;
 
-    @Column(name = "evento")
-    private String event;
-
     @Column(name = "fecha", nullable = false)
     private LocalDateTime date;
 
@@ -48,6 +45,9 @@ public class BetEntity {
     @JoinColumn(name = "creador_id", nullable = false)
     private UserEntity creator;
 
+    @ManyToOne
+    @JoinColumn(name = "competicion_id", nullable = false)
+    private CompetitionEntity competition;
 
 
 

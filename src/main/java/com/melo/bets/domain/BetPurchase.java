@@ -14,7 +14,7 @@ public class BetPurchase {
 
     private LocalDateTime purchaseDate = LocalDateTime.now();
 
-    private Bet bet;
+    private UUID betId;
 
-    private User user;
+    private UUID userId;
 }
