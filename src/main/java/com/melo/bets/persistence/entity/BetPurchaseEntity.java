@@ -23,12 +23,18 @@ public class BetPurchaseEntity {
     @Column(name = "fecha_compra")
     private LocalDateTime purchaseDate = LocalDateTime.now();
 
+    @Column(name = "apuesta_id", nullable = false)
+    private UUID betId;
+
+    @Column(name = "usuario_id", nullable = false)
+    private UUID userId;
+
     @ManyToOne
-    @JoinColumn(name = "apuesta_id", nullable = false)
+    @JoinColumn(name = "apuesta_id", insertable = false, updatable = false)
     private BetEntity betEntity;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
+    @JoinColumn(name = "usuario_id", insertable = false, updatable = false)
     private UserEntity userEntity;
 
 

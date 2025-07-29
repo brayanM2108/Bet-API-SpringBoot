@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 @Repository
-public class RaffleRepository implements IRaffleRepository {
+public class RaffleRepositoryImpl implements IRaffleRepository {
 
     private final RaffleCrudRepository raffleCrudRepository;
     private final RaffleMapper raffleMapper;
 
     @Autowired
-    public RaffleRepository(RaffleCrudRepository raffleCrudRepository, RaffleMapper raffleMapper) {
+    public RaffleRepositoryImpl(RaffleCrudRepository raffleCrudRepository, RaffleMapper raffleMapper) {
         this.raffleCrudRepository = raffleCrudRepository;
         this.raffleMapper = raffleMapper;
     }

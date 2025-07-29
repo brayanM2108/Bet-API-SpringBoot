@@ -12,9 +12,21 @@ public interface IBetPurchaseRepository {
 
     Optional<BetPurchase> findById(UUID id);
 
+    List<BetPurchase> findByUserId(UUID userid);
+
+    List<BetPurchase> findByBetId(UUID betId);
+
+    Optional<BetPurchase> getByUserAndBet(UUID userId, UUID betId);
+
     BetPurchase save(BetPurchase betPurchase);
 
-    Optional<BetPurchase> update(BetPurchase betPurchase);
-
     void delete(UUID id);
+
+
+
+
+
+
+
+
 }

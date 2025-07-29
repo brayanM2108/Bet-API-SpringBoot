@@ -13,12 +13,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class BetRepository implements IBetRepository {
+public class BetRepositoryImpl implements IBetRepository {
     private final BetCrudRepository betCrudRepository;
     private final BetMapper betMapper;
 
     @Autowired
-    public BetRepository(BetCrudRepository betCrudRepository, BetMapper betMapper) {
+    public BetRepositoryImpl(BetCrudRepository betCrudRepository, BetMapper betMapper) {
         this.betCrudRepository = betCrudRepository;
         this.betMapper = betMapper;
     }

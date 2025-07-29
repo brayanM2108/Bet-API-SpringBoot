@@ -12,13 +12,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class UserRepository implements IUserRepository {
+public class UserRepositoryImpl implements IUserRepository {
 
     private final UserCrudRepository userCrudRepository;
     private final UserMapper userMapper;
 
     @Autowired
-    public UserRepository(UserCrudRepository userCrudRepository, UserMapper userMapper) {
+    public UserRepositoryImpl(UserCrudRepository userCrudRepository, UserMapper userMapper) {
         this.userCrudRepository = userCrudRepository;
         this.userMapper = userMapper;
     }

@@ -13,8 +13,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface BetPurchaseMapper {
 
-    @Mapping(target = "betId", source = "betEntity.id")
-    @Mapping(target = "userId", source = "userEntity.id")
+
     BetPurchase toBetPurchase(BetPurchaseEntity betPurchaseEntity);
     List<BetPurchase> toBetPurchaseList(List<BetPurchaseEntity> betPurchaseEntities);
 
