@@ -25,8 +25,11 @@ public class CompetitionEntity {
     @Column(name = "fecha")
     private LocalDateTime date;
 
+    @Column(name = "categorias_id", nullable = false)
+    private UUID categoryId;
+
     @ManyToOne
-    @JoinColumn(name = "categorias_id", nullable = false)
+    @JoinColumn(name = "categorias_id", insertable = false, updatable = false)
     private CategoryEntity category;
 
 }

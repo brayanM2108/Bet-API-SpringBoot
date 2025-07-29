@@ -17,12 +17,12 @@ import java.util.List;
 )
 public interface RaffleMapper {
 
-    @Mapping(target = "userId", source = "creator.id")
-    @Mapping(target = "numberOfTickets", source = "numberOfTickets")
+
     Raffle toRaffle(RaffleEntity raffleEntity);
 
     List<Raffle> toRaffleList(List<RaffleEntity> raffleEntities);
 
     @InheritInverseConfiguration
+    @Mapping(target = "creator", ignore = true)
     RaffleEntity toRaffleEntity(Raffle raffle);
 }

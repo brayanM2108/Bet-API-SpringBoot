@@ -41,8 +41,11 @@ public class RaffleEntity {
     @Column(name = "num_participantes", nullable = false)
     private Integer numberOfTickets;
 
+    @Column(name = "creador_id", nullable = false)
+    private UUID userId;
+
     @ManyToOne
-    @JoinColumn(name = "creador_id", nullable = false)
+    @JoinColumn(name = "creador_id", insertable = false, updatable = false)
     private UserEntity creator;
 
 

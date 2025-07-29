@@ -19,14 +19,22 @@ public class RaffleParticipationEntity {
     @Column(name = "id")
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "rifa_id", nullable = false)
-    private RaffleEntity raffleEntity;
+    @Column(name = "rifa_id", nullable = false)
+    private UUID raffleId;
 
-    @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
-    private UserEntity userEntity;
+    @Column(name = "usuario_id", nullable = false)
+    private UUID userId;
 
     @Column(name = "fecha_participacion", nullable = false)
     private LocalDateTime participationDate = LocalDateTime.now();
+
+    @ManyToOne
+    @JoinColumn(name = "rifa_id", insertable = false, updatable = false)
+    private RaffleEntity raffleEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", insertable = false, updatable = false)
+    private UserEntity userEntity;
+
+
 }

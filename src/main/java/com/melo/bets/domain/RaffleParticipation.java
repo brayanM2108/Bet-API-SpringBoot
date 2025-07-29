@@ -11,9 +11,9 @@ public class RaffleParticipation {
 
     private UUID id;
 
-    private Raffle raffle;
+    private UUID raffleId;
 
-    private User user;
+    private UUID userId;
 
     private LocalDateTime participationDate = LocalDateTime.now();
 }

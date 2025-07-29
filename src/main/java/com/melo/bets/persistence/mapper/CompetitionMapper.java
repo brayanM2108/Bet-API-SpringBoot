@@ -11,7 +11,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface CompetitionMapper {
 
-    @Mapping(target = "categoryId", source = "category.id")
     Competition toCompetition(CompetitionEntity entity);
 
     @InheritInverseConfiguration

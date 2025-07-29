@@ -29,8 +29,11 @@ public class PaymentEntity {
     @Column(name = "fecha_pago", nullable = false)
     private LocalDateTime paymentDate = LocalDateTime.now();
 
+    @Column(name = "usuario_id", nullable = false)
+    private UUID userId;
+
     @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
+    @JoinColumn(name = "usuario_id", insertable = false, updatable = false)
     private UserEntity userEntity;
 
 }

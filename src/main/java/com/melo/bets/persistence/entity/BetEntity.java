@@ -41,12 +41,18 @@ public class BetEntity {
     @Column(name = "precio", nullable = false)
     private BigDecimal price;
 
+    @Column(name = "creador_id", nullable = false)
+    private UUID userId;
+
+    @Column(name = "competicion_id")
+    private UUID competitionId;
+
     @ManyToOne
-    @JoinColumn(name = "creador_id", nullable = false)
+    @JoinColumn(name = "creador_id", insertable = false, updatable = false)
     private UserEntity creator;
 
     @ManyToOne
-    @JoinColumn(name = "competicion_id", nullable = false)
+    @JoinColumn(name = "competicion_id", insertable = false, updatable = false)
     private CompetitionEntity competition;
 
 
