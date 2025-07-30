@@ -37,7 +37,6 @@ public class BetRepositoryImpl implements IBetRepository {
     @Override
     public Bet save(Bet bet) {
         BetEntity betEntity = betMapper.toBetEntity(bet);
-
         return betMapper.toBet(betCrudRepository.save(betEntity));
     }
 

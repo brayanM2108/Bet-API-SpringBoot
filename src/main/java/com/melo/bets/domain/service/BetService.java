@@ -67,7 +67,7 @@ public class BetService {
         if (getBet(id).isPresent()) {
             betRepository.delete(id);
             return true;
-        }else return false;
+        } return false;
     }
 
     public List<Bet> findByCompetition(UUID competicionId) {
