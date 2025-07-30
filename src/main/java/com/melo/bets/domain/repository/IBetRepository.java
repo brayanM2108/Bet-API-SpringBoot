@@ -17,4 +17,10 @@ public interface IBetRepository {
     Optional <Bet> update(Bet bet);
 
     void delete(UUID id);
+
+    List<Bet> findByCompetition(UUID competicionId);
+
+    List<Bet> findByCategory(UUID categoryId);
+
+    List<Bet> findByCompetitionAndCategory(UUID competitionId, UUID categoryId);
 }

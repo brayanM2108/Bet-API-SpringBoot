@@ -69,4 +69,16 @@ public class BetService {
             return true;
         }else return false;
     }
+
+    public List<Bet> findByCompetition(UUID competicionId) {
+        return betRepository.findByCompetition(competicionId);
+    }
+
+    public List<Bet> findByCategory(UUID categoryId) {
+        return betRepository.findByCategory(categoryId);
+    }
+
+    public List<Bet> findByCompetitionAndCategory(UUID competitionId, UUID categoryId) {
+        return betRepository.findByCompetitionAndCategory(competitionId, categoryId);
+    }
 }

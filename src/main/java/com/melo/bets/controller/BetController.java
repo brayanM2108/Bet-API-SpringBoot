@@ -30,6 +30,22 @@ public class BetController {
         return ResponseEntity.of(betService.getBet(id));
     }
 
+    @GetMapping("/competition/{id}")
+    public ResponseEntity<List<Bet>> getByCompetition(@PathVariable("id") UUID id) {
+        return new ResponseEntity<>(betService.findByCompetition(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/category/{id}")
+    public ResponseEntity<List<Bet>> getByCategory(@PathVariable("id") UUID id) {
+        return new ResponseEntity<>(betService.findByCategory(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/competitionandcategory")
+    public ResponseEntity<List<Bet>> getByCompetitionAndCategory(@RequestParam UUID competitionId,
+                                                                 @RequestParam UUID categoryId) {
+        return new ResponseEntity<>(betService.findByCompetitionAndCategory(competitionId, categoryId), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Bet> saveBet(@RequestBody Bet bet) {
         return new ResponseEntity<>(betService.saveBet(bet), HttpStatus.CREATED);

@@ -20,5 +20,5 @@ public class Payment {
 
     private LocalDateTime paymentDate = LocalDateTime.now();
 
-    private User user;
+    private UUID userId;
 }

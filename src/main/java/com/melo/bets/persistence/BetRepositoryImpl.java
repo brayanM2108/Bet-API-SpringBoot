@@ -23,7 +23,6 @@ public class BetRepositoryImpl implements IBetRepository {
         this.betMapper = betMapper;
     }
 
-
     @Override
     public List<Bet> findAll() {
         List<BetEntity> bets = betCrudRepository.findAll();
@@ -53,9 +52,26 @@ public class BetRepositoryImpl implements IBetRepository {
         return Optional.empty();
     }
 
-
     @Override
     public void delete(UUID id) {
         betCrudRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Bet> findByCompetition(UUID competicionId) {
+        List<BetEntity> bets = betCrudRepository.findByCompetitionId(competicionId);
+        return betMapper.toBetList(bets);
+    }
+
+    @Override
+    public List<Bet> findByCategory(UUID categoryId) {
+        List<BetEntity> bets = betCrudRepository.findByCompetitionCategoryId(categoryId);
+        return betMapper.toBetList(bets);
+    }
+
+    @Override
+    public List<Bet> findByCompetitionAndCategory(UUID competitionId, UUID categoryId) {
+        List<BetEntity> bets = betCrudRepository.findByCompetitionIdAndCompetitionCategoryId(competitionId, categoryId);
+        return betMapper.toBetList(bets);
     }
 }
