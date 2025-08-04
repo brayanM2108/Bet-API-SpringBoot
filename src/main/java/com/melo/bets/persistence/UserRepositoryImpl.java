@@ -35,6 +35,11 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     @Override
+    public Optional<User> findByEmail(String email) {
+        return userCrudRepository.findByEmail(email).map(userMapper::toUser);
+    }
+
+    @Override
     public User save(User user) {
         return null;
     }

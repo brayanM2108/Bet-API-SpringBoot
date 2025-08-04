@@ -41,6 +41,12 @@ public class BetEntity {
     @Column(name = "precio", nullable = false)
     private BigDecimal price;
 
+    @Column(name = "resultado")
+    private Boolean result;
+
+    @Column(name = "tipo_apuesta")
+    private String betType;
+
     @Column(name = "creador_id", nullable = false)
     private UUID userId;
 

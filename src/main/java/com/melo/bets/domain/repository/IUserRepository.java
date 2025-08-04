@@ -12,6 +12,8 @@ public interface IUserRepository {
 
     Optional<User> findById(UUID id);
 
+    Optional<User> findByEmail(String email);
+
     User save(User user);
 
     Optional <User> update(User user);

@@ -9,6 +9,7 @@ import java.util.UUID;
 public interface BetCrudRepository extends JpaRepository<BetEntity, UUID> {
 
     List<BetEntity> findByCompetitionId(UUID competitionId);
+
     List<BetEntity> findByCompetitionCategoryId(UUID competitionId);
 
     List<BetEntity> findByCompetitionIdAndCompetitionCategoryId(UUID competitionId, UUID categoryId);

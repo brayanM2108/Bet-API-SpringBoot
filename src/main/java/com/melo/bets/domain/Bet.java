@@ -1,5 +1,6 @@
 package com.melo.bets.domain;
 
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 import java.math.BigDecimal;
@@ -23,6 +24,10 @@ public class Bet {
     private String status;
 
     private BigDecimal price;
+
+    private String betType;
+
+    private Boolean result;
 
     private UUID userId;
 

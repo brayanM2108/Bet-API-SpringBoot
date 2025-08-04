@@ -1,4 +1,4 @@
-package com.melo.bets.controller;
+package com.melo.bets.web.controller;
 
 import com.melo.bets.domain.Bet;
 import com.melo.bets.domain.service.BetService;

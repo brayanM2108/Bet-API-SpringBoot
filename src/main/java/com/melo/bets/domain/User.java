@@ -28,13 +28,5 @@ public class User {
 
     private String document;
 
-    private List<Raffle> raffle;
-
-    private List<Bet> bet;
-
-    private List<RaffleParticipation> participations;
-
-    private List<BetPurchase> betPurchase;
-
-    private List<Payment> payment;
+    private List<UserRole> roles;
 }

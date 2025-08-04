@@ -41,20 +41,8 @@ public class UserEntity {
     @Column(name = "documento", nullable = false)
     private String document;
 
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
-    private List<RaffleEntity> raffleEntities;
-
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
-    private List<BetEntity> betEntities;
-
-    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
-    private List<RaffleParticipationEntity> participations;
-
-    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
-    private List<BetPurchaseEntity> betPurchaseEntities;
-
-    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
-    private List<PaymentEntity> paymentEntities;
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<UserRoleEntity> roles;
 
 
 }
