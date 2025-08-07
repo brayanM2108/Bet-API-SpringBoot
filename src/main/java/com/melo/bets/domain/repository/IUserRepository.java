@@ -1,6 +1,8 @@
 package com.melo.bets.domain.repository;
 
 import com.melo.bets.domain.User;
+import com.melo.bets.domain.dto.UserDto;
+import com.melo.bets.domain.dto.UserRegisterDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,15 +10,15 @@ import java.util.UUID;
 
 public interface IUserRepository {
 
-    List<User> findAll();
+    List<UserDto> findAll();
 
-    Optional<User> findById(UUID id);
+    Optional<UserDto> findById(UUID id);
 
     Optional<User> findByEmail(String email);
 
-    User save(User user);
+    UserRegisterDto save(UserRegisterDto user);
 
-    Optional <User> update(User user);
+    Optional <UserDto> update(UserDto user);
 
     void delete(UUID id);
 }

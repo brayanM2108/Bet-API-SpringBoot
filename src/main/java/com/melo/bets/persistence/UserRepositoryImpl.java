@@ -1,8 +1,11 @@
 package com.melo.bets.persistence;
 
 import com.melo.bets.domain.User;
+import com.melo.bets.domain.dto.UserDto;
+import com.melo.bets.domain.dto.UserRegisterDto;
 import com.melo.bets.domain.repository.IUserRepository;
 import com.melo.bets.persistence.crud.UserCrudRepository;
+import com.melo.bets.persistence.entity.UserEntity;
 import com.melo.bets.persistence.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -25,13 +28,14 @@ public class UserRepositoryImpl implements IUserRepository {
 
 
     @Override
-    public List<User> findAll() {
-        return List.of();
+    public List<UserDto> findAll() {
+        List<UserEntity> users = userCrudRepository.findAll();
+        return userMapper.toUserDtoList(users);
     }
 
     @Override
-    public Optional<User> findById(UUID id) {
-        return Optional.empty();
+    public Optional<UserDto> findById(UUID id) {
+        return userCrudRepository.findById(id).map(userMapper::toUserDto);
     }
 
     @Override
@@ -40,17 +44,19 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     @Override
-    public User save(User user) {
-        return null;
+    public UserRegisterDto save(UserRegisterDto user) {
+        UserEntity userEntity = userMapper.toUserRegisterDto(user);
+        userEntity.setStatus(true);
+        return userMapper.toUserRegisterDto(userCrudRepository.save(userEntity));
     }
 
     @Override
-    public Optional <User> update(User user) {
+    public Optional <UserDto> update(UserDto user) {
         return null;
     }
 
     @Override
     public void delete(UUID id) {
-
+        userCrudRepository.deleteById(id);
     }
 }

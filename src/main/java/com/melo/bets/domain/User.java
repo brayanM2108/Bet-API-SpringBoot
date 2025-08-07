@@ -24,7 +24,7 @@ public class User {
 
     private LocalDateTime registrationDate = LocalDateTime.now();
 
-    private String status;
+    private Boolean status;
 
     private String document;
 

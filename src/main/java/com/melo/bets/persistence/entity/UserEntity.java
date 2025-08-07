@@ -35,8 +35,8 @@ public class UserEntity {
     @Column(name = "fecha_registro", updatable = false)
     private LocalDateTime registrationDate = LocalDateTime.now();
 
-    @Column(name = "estado", nullable = false)
-    private String status;
+    @Column(name = "estado", columnDefinition = "boolean default true")
+    private Boolean status;
 
     @Column(name = "documento", nullable = false)
     private String document;

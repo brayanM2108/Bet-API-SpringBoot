@@ -3,7 +3,6 @@ package com.melo.bets.domain.service;
 import com.melo.bets.domain.User;
 import com.melo.bets.domain.UserRole;
 import com.melo.bets.domain.repository.IUserRepository;
-import com.melo.bets.persistence.entity.UserRoleEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,11 +34,12 @@ public class UserSecurityService implements UserDetailsService {
 
         String[] roles = user.getRoles().stream().map(UserRole::getRole).toArray(String[]::new);
 
-        logger.info("Usuario {} está intentando autenticarse con roles: {}", email, Arrays.toString(roles));
+        logger.info("Usuario {} esta intentando autenticarse con roles: {}", email, Arrays.toString(roles));
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getEmail())
                 .password(user.getPassword())
                 .roles(roles)
+                .disabled(user.getStatus())
                 .build();
     }
 
