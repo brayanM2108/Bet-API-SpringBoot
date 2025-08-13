@@ -1,7 +1,7 @@
 package com.melo.bets.domain.service;
 
-import com.melo.bets.domain.User;
 import com.melo.bets.domain.UserRole;
+import com.melo.bets.domain.dto.user.LoginDto;
 import com.melo.bets.domain.repository.IUserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +29,7 @@ public class UserSecurityService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = this.userRepository.findByEmail(email).
+        LoginDto user = this.userRepository.findByEmail(email).
                 orElseThrow(()-> new UsernameNotFoundException("User not found with email: " + email));
 
         String[] roles = user.getRoles().stream().map(UserRole::getRole).toArray(String[]::new);
@@ -38,8 +38,8 @@ public class UserSecurityService implements UserDetailsService {
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getEmail())
                 .password(user.getPassword())
+                .disabled(!user.getStatus())
                 .roles(roles)
-                .disabled(user.getStatus())
                 .build();
     }
 
@@ -60,4 +60,8 @@ public class UserSecurityService implements UserDetailsService {
         }
         return authorities;
     }
+
+    int numero = 42;
+
+
 }

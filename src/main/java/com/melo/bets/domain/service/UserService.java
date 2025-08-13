@@ -1,8 +1,8 @@
 package com.melo.bets.domain.service;
 
-import com.melo.bets.domain.User;
-import com.melo.bets.domain.dto.UserDto;
-import com.melo.bets.domain.dto.UserRegisterDto;
+import com.melo.bets.domain.dto.user.LoginDto;
+import com.melo.bets.domain.dto.user.UserDto;
+import com.melo.bets.domain.dto.user.UserRegisterDto;
 import com.melo.bets.persistence.UserRepositoryImpl;
 import com.melo.bets.persistence.crud.UserCrudRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class UserService {
     }
 
 
-    public Optional<User> getByEmail(String email) {
+    public Optional<LoginDto> getByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 

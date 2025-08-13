@@ -35,32 +35,31 @@ public class BetEntity {
     @Column(name = "fecha", nullable = false)
     private LocalDateTime date;
 
-    @Column(name = "estado", nullable = false)
-    private String status;
+    @Column(name = "estado")
+    private Boolean status;
 
     @Column(name = "precio", nullable = false)
     private BigDecimal price;
 
     @Column(name = "resultado")
-    private Boolean result;
+    private String result;
 
     @Column(name = "tipo_apuesta")
     private String betType;
 
-    @Column(name = "creador_id", nullable = false)
+    @Column(name = "creador_id")
     private UUID userId;
 
     @Column(name = "competicion_id")
     private UUID competitionId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creador_id", insertable = false, updatable = false)
     private UserEntity creator;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "competicion_id", insertable = false, updatable = false)
     private CompetitionEntity competition;
-
 
 
 }

@@ -1,7 +1,7 @@
 package com.melo.bets.web.controller;
 
-import com.melo.bets.domain.dto.UserDto;
-import com.melo.bets.domain.dto.UserRegisterDto;
+import com.melo.bets.domain.dto.user.UserDto;
+import com.melo.bets.domain.dto.user.UserRegisterDto;
 import com.melo.bets.domain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

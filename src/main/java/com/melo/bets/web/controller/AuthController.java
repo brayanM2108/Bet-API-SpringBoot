@@ -1,6 +1,6 @@
 package com.melo.bets.web.controller;
 
-import com.melo.bets.domain.dto.LoginDto;
+import com.melo.bets.domain.dto.user.LoginDto;
 import com.melo.bets.web.config.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

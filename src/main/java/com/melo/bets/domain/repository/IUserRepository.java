@@ -1,8 +1,8 @@
 package com.melo.bets.domain.repository;
 
-import com.melo.bets.domain.User;
-import com.melo.bets.domain.dto.UserDto;
-import com.melo.bets.domain.dto.UserRegisterDto;
+import com.melo.bets.domain.dto.user.LoginDto;
+import com.melo.bets.domain.dto.user.UserDto;
+import com.melo.bets.domain.dto.user.UserRegisterDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +14,7 @@ public interface IUserRepository {
 
     Optional<UserDto> findById(UUID id);
 
-    Optional<User> findByEmail(String email);
+    Optional<LoginDto> findByEmail(String email);
 
     UserRegisterDto save(UserRegisterDto user);
 

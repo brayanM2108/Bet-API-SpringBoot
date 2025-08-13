@@ -32,9 +32,9 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(customizeRequest -> customizeRequest
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/raffles/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users/**").hasRole("ADMIN")
-                        .requestMatchers("/raffles/**").hasRole("USER")
                         .anyRequest()
                         .authenticated())
 

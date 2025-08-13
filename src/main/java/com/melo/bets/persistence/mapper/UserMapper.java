@@ -1,10 +1,10 @@
 package com.melo.bets.persistence.mapper;
 
 import com.melo.bets.domain.User;
-import com.melo.bets.domain.dto.UserDto;
-import com.melo.bets.domain.dto.UserRegisterDto;
+import com.melo.bets.domain.dto.user.LoginDto;
+import com.melo.bets.domain.dto.user.UserDto;
+import com.melo.bets.domain.dto.user.UserRegisterDto;
 import com.melo.bets.persistence.entity.UserEntity;
-import com.melo.bets.persistence.entity.UserRoleEntity;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -20,12 +20,16 @@ public interface UserMapper {
 
     UserDto toUserDto(UserEntity user);
 
+    LoginDto toLoginDto(UserEntity user);
+
     UserRegisterDto toUserRegisterDto(UserEntity user);
 
     List<UserDto> toUserDtoList(List<UserEntity> users);
 
     @InheritInverseConfiguration
     UserEntity toUserEntity(User user);
+
+
 
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "document", ignore = true)

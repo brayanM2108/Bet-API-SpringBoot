@@ -1,6 +1,10 @@
 package com.melo.bets.domain.repository;
 
-import com.melo.bets.domain.Bet;
+import com.melo.bets.domain.dto.bet.BetCreateDto;
+import com.melo.bets.domain.dto.bet.BetDto;
+import com.melo.bets.domain.dto.bet.BetUpdateDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,19 +12,21 @@ import java.util.UUID;
 
 public interface IBetRepository {
 
-    List<Bet> findAll();
+    List<BetDto> findAll();
 
-    Optional<Bet> findById(UUID id);
+    Optional<BetDto> findById(UUID id);
 
-    Bet save(Bet bet);
+    BetCreateDto save(BetCreateDto bet);
 
-    Optional <Bet> update(Bet bet);
+    Optional <BetUpdateDto> update(UUID id, BetUpdateDto bet);
 
     void delete(UUID id);
 
-    List<Bet> findByCompetition(UUID competicionId);
+    List<BetDto> findByCompetition(UUID competicionId);
 
-    List<Bet> findByCategory(UUID categoryId);
+    List<BetDto> findByCategory(UUID categoryId);
 
-    List<Bet> findByCompetitionAndCategory(UUID competitionId, UUID categoryId);
+    List<BetDto> findByCompetitionAndCategory(UUID competitionId, UUID categoryId);
+
+    Page<BetDto> findAllAvailable(Pageable pageable);
 }

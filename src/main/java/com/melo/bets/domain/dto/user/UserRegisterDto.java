@@ -1,4 +1,4 @@
-package com.melo.bets.domain.dto;
+package com.melo.bets.domain.dto.user;
 
 import lombok.Data;
 

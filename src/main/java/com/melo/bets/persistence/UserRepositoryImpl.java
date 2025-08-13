@@ -1,8 +1,8 @@
 package com.melo.bets.persistence;
 
-import com.melo.bets.domain.User;
-import com.melo.bets.domain.dto.UserDto;
-import com.melo.bets.domain.dto.UserRegisterDto;
+import com.melo.bets.domain.dto.user.LoginDto;
+import com.melo.bets.domain.dto.user.UserDto;
+import com.melo.bets.domain.dto.user.UserRegisterDto;
 import com.melo.bets.domain.repository.IUserRepository;
 import com.melo.bets.persistence.crud.UserCrudRepository;
 import com.melo.bets.persistence.entity.UserEntity;
@@ -39,8 +39,8 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
-        return userCrudRepository.findByEmail(email).map(userMapper::toUser);
+    public Optional<LoginDto> findByEmail(String email) {
+        return userCrudRepository.findByEmail(email).map(userMapper::toLoginDto);
     }
 
     @Override

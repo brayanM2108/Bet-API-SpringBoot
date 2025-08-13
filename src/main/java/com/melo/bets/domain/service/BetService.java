@@ -1,14 +1,18 @@
 package com.melo.bets.domain.service;
 
-import com.melo.bets.domain.Bet;
+import com.melo.bets.domain.dto.bet.BetCreateDto;
+import com.melo.bets.domain.dto.bet.BetDto;
+import com.melo.bets.domain.dto.bet.BetUpdateDto;
 import com.melo.bets.domain.repository.IBetRepository;
 import com.melo.bets.persistence.crud.UserCrudRepository;
-import com.melo.bets.persistence.entity.BetEntity;
-import com.melo.bets.persistence.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,60 +29,71 @@ public class BetService {
         this.userCrudRepository = userCrudRepository;
     }
 
-    public List<Bet> getAllBets() {
+    public List<BetDto> getAllBets() {
         return betRepository.findAll();
     }
 
-    public Optional<Bet> getBet(UUID id) {
+    public Optional<BetDto> getBet(UUID id) {
 
         return betRepository.findById(id);
     }
 
-    public Bet saveBet(Bet bet) {
+    public Page<BetDto> getAllAvailable(int page, int elements, String sortBy, String sortDirection) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageRequest = PageRequest.of(page, elements, sort);
+        return betRepository.findAllAvailable(pageRequest);
+    }
+
+    public BetCreateDto saveBet(BetCreateDto bet) {
 
         // 1. Verificar que el userId no sea null
-        if (bet.getUserId() == null) {
+        if (bet.userId() == null) {
             throw new IllegalArgumentException("User ID is required.");
         }
 
         // 2. Buscar el usuario en la base de datos
-        userCrudRepository.findById(bet.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + bet.getUserId()));
+        userCrudRepository.findById(bet.userId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + bet.userId()));
 
-        if (bet.getDate() == null) {
-            bet.setDate(LocalDateTime.now());
-        }
 
         return betRepository.save(bet);
     }
 
-    public Optional<Bet> updateBet(Bet bet) {
-        {
-            if (betRepository.findById(bet.getId()).isEmpty()) {
-                return Optional.empty();
-            }
-
-            return betRepository.update(bet);
+    public Optional<BetUpdateDto> updateBet(UUID id, BetUpdateDto bet) {
+        // Validaciones de negocio
+        if (bet.title() != null && bet.title().isBlank()) {
+            throw new IllegalArgumentException("The tittle cannot be empty.");
+        }
+        if (bet.odds() != null && bet.odds().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("The odds must be greater than or equal to zero.");
+        }
+        if (bet.price() != null && bet.price().compareTo(BigDecimal.ZERO) <0) {
+            throw new IllegalArgumentException("The price must be greater than or equal to zero.");
+        }
+        if (bet.date().isBefore(java.time.LocalDateTime.now())) {
+            throw new IllegalArgumentException("The date cannot be in the past.");
         }
 
+        return betRepository.update(id, bet);
     }
 
     public boolean deleteBet(UUID id) {
         if (getBet(id).isPresent()) {
             betRepository.delete(id);
             return true;
-        } return false;
+        }
+        return false;
     }
 
-    public List<Bet> findByCompetition(UUID competicionId) {
+    public List<BetDto> findByCompetition(UUID competicionId) {
         return betRepository.findByCompetition(competicionId);
     }
 
-    public List<Bet> findByCategory(UUID categoryId) {
+    public List<BetDto> findByCategory(UUID categoryId) {
         return betRepository.findByCategory(categoryId);
     }
 
-    public List<Bet> findByCompetitionAndCategory(UUID competitionId, UUID categoryId) {
+    public List<BetDto> findByCompetitionAndCategory(UUID competitionId, UUID categoryId) {
         return betRepository.findByCompetitionAndCategory(competitionId, categoryId);
     }
 }

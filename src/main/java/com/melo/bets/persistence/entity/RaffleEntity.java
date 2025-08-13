@@ -44,7 +44,7 @@ public class RaffleEntity {
     @Column(name = "creador_id", nullable = false)
     private UUID userId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creador_id", insertable = false, updatable = false)
     private UserEntity creator;
 
