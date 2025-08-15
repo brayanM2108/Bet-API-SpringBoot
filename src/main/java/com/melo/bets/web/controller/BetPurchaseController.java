@@ -1,6 +1,7 @@
 package com.melo.bets.web.controller;
 
 import com.melo.bets.domain.BetPurchase;
+import com.melo.bets.domain.dto.betPurchase.BetPurchaseDto;
 import com.melo.bets.domain.service.BetPurchaseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,18 +21,27 @@ public class BetPurchaseController {
     }
 
     @GetMapping
-    public ResponseEntity <List<BetPurchase>> getAll() {
+    public ResponseEntity <List<BetPurchaseDto>> getAll() {
         return new ResponseEntity<> (betPurchaseService.getAll(), HttpStatus.OK);
+    }
+    @GetMapping("{id}")
+    public ResponseEntity <BetPurchaseDto> getById(@PathVariable("id") UUID id) {
+        return ResponseEntity.of(betPurchaseService.getById(id));
     }
 
     @GetMapping("/bet/{id}")
-    public ResponseEntity <List<BetPurchase>> getByBet(@PathVariable ("id") UUID betId) {
+    public ResponseEntity <List<BetPurchaseDto>> getByBet(@PathVariable ("id") UUID betId) {
         return new ResponseEntity<> (betPurchaseService.getByBet(betId), HttpStatus.OK);
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity <List<BetPurchase>> getByUser(@PathVariable ("id") UUID userId) {
+    public ResponseEntity <List<BetPurchaseDto>> getByUser(@PathVariable ("id") UUID userId) {
         return new ResponseEntity<> (betPurchaseService.getByUser(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/creator/{id}")
+    public ResponseEntity <List<BetPurchaseDto>> getByCreator(@PathVariable ("id") UUID creatorId) {
+        return new ResponseEntity<> (betPurchaseService.getByCreatorId(creatorId), HttpStatus.OK);
     }
 
     @GetMapping("/userandbet")

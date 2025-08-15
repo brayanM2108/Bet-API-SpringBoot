@@ -61,7 +61,6 @@ public class UserSecurityService implements UserDetailsService {
         return authorities;
     }
 
-    int numero = 42;
 
 
 }

@@ -32,11 +32,15 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(customizeRequest -> customizeRequest
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/raffles/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users/**").hasRole("ADMIN")
-                        .anyRequest()
-                        .authenticated())
+                        .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
+                        .requestMatchers("/bet/**").authenticated()
+                        .requestMatchers("/raffles/**").authenticated()
+                        .requestMatchers("/bet-purchase/**").authenticated()
+                        .requestMatchers("/payment/**").authenticated()
+                        .requestMatchers("/raffle-participation/**").authenticated()
+                        .anyRequest().authenticated())
 
                 .csrf(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

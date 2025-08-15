@@ -1,6 +1,7 @@
 package com.melo.bets.persistence;
 
 import com.melo.bets.domain.BetPurchase;
+import com.melo.bets.domain.dto.betPurchase.BetPurchaseDto;
 import com.melo.bets.domain.repository.IBetPurchaseRepository;
 import com.melo.bets.persistence.crud.BetPurchaseCrudRepository;
 import com.melo.bets.persistence.entity.BetPurchaseEntity;
@@ -25,26 +26,32 @@ public class BetPurchaseRepositoryImpl implements IBetPurchaseRepository {
     }
 
     @Override
-    public List<BetPurchase> findAll() {
+    public List<BetPurchaseDto> findAll() {
         List<BetPurchaseEntity> betPurchases = betPurchaseCrudRepository.findAll();
-        return betPurchaseMapper.toBetPurchaseList(betPurchases);
+        return betPurchaseMapper.toBetPurchaseListDto(betPurchases);
     }
 
     @Override
-    public Optional<BetPurchase> findById(UUID id) {
-        return betPurchaseCrudRepository.findById(id).map(betPurchaseMapper::toBetPurchase);
+    public Optional<BetPurchaseDto> findById(UUID id) {
+        return betPurchaseCrudRepository.findById(id).map(betPurchaseMapper::toBetPurchaseDto);
     }
 
     @Override
-    public List<BetPurchase> findByUserId(UUID id) {
+    public List<BetPurchaseDto> findByUserId(UUID id) {
         List<BetPurchaseEntity> betPurchases = betPurchaseCrudRepository.findByUserId(id);
-        return betPurchaseMapper.toBetPurchaseList(betPurchases);
+        return betPurchaseMapper.toBetPurchaseListDto(betPurchases);
     }
 
     @Override
-    public List<BetPurchase> findByBetId(UUID betId) {
+    public List<BetPurchaseDto> findByCreatorId(UUID creatorId) {
+        List<BetPurchaseEntity> betPurchases = betPurchaseCrudRepository.findByBetCreatorId(creatorId);
+        return betPurchaseMapper.toBetPurchaseListDto(betPurchases);
+    }
+
+    @Override
+    public List<BetPurchaseDto> findByBetId(UUID betId) {
         List<BetPurchaseEntity> betPurchases = betPurchaseCrudRepository.findByBetId(betId);
-        return betPurchaseMapper.toBetPurchaseList(betPurchases);
+        return betPurchaseMapper.toBetPurchaseListDto(betPurchases);
     }
 
     @Override

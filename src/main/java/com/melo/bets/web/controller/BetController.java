@@ -25,9 +25,11 @@ public class BetController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BetDto>> getAll() {
-        return new ResponseEntity<>(betService.getAllBets(), HttpStatus.OK);
+    public ResponseEntity<Page<BetDto>> getAll(@RequestParam (defaultValue = "0") int page,
+                                               @RequestParam (defaultValue = "10") int elements) {
+        return new ResponseEntity<>(betService.getAllBets(page, elements), HttpStatus.OK);
     }
+
     @GetMapping("{id}")
     public ResponseEntity<BetDto> getById(@PathVariable("id") UUID id) {
         return ResponseEntity.of(betService.getBet(id));
@@ -41,20 +43,19 @@ public class BetController {
     }
 
     @GetMapping("/competition/{id}")
-    public ResponseEntity<List<BetDto>> getByCompetition(@PathVariable("id") UUID id) {
-        return new ResponseEntity<>(betService.findByCompetition(id), HttpStatus.OK);
+    public ResponseEntity<Page<BetDto>> getByCompetition(@RequestParam (defaultValue = "0") int page,
+                                                         @RequestParam (defaultValue = "8") int elements,
+                                                         @PathVariable("id") UUID id) {
+        return new ResponseEntity<>(betService.findByCompetition(page,elements, id), HttpStatus.OK);
     }
 
     @GetMapping("/category/{id}")
-    public ResponseEntity<List<BetDto>> getByCategory(@PathVariable("id") UUID id) {
-        return new ResponseEntity<>(betService.findByCategory(id), HttpStatus.OK);
+    public ResponseEntity<Page<BetDto>> getByCategory(@RequestParam (defaultValue = "0") int page,
+                                                      @RequestParam (defaultValue = "8") int elements,
+                                                      @PathVariable("id") UUID id) {
+        return new ResponseEntity<>(betService.findByCategory(page, elements, id), HttpStatus.OK);
     }
 
-    @GetMapping("/competition-category")
-    public ResponseEntity<List<BetDto>> getByCompetitionAndCategory(@RequestParam UUID competitionId,
-                                                                 @RequestParam UUID categoryId) {
-        return new ResponseEntity<>(betService.findByCompetitionAndCategory(competitionId, categoryId), HttpStatus.OK);
-    }
 
     @PostMapping
     public ResponseEntity<BetCreateDto> save(@RequestBody BetCreateDto bet) {

@@ -1,6 +1,7 @@
 package com.melo.bets.domain.service;
 
 import com.melo.bets.domain.BetPurchase;
+import com.melo.bets.domain.dto.betPurchase.BetPurchaseDto;
 import com.melo.bets.domain.repository.IBetPurchaseRepository;
 import com.melo.bets.persistence.crud.BetCrudRepository;
 import com.melo.bets.persistence.crud.UserCrudRepository;
@@ -24,18 +25,22 @@ public class BetPurchaseService {
         this.userCrudRepository = userCrudRepository;
     }
 
-    public List<BetPurchase> getAll() {
+    public List<BetPurchaseDto> getAll() {
         return betPurchaseRepository.findAll();
     }
-    public Optional<BetPurchase> getById(UUID id) {
+    public Optional<BetPurchaseDto> getById(UUID id) {
         return betPurchaseRepository.findById(id);
     }
 
-    public List<BetPurchase> getByUser(UUID userId) {
+    public List<BetPurchaseDto> getByUser(UUID userId) {
         return betPurchaseRepository.findByUserId(userId);
     }
 
-    public List<BetPurchase> getByBet(UUID betId) {
+    public List<BetPurchaseDto> getByCreatorId(UUID creatorId){
+        return betPurchaseRepository.findByCreatorId(creatorId);
+    }
+
+    public List<BetPurchaseDto> getByBet(UUID betId) {
         return betPurchaseRepository.findByBetId(betId);
     }
 

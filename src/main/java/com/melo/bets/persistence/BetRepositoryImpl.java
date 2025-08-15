@@ -27,9 +27,8 @@ public class BetRepositoryImpl implements IBetRepository {
     }
 
     @Override
-    public List<BetDto> findAll() {
-        List<BetEntity> bets = betCrudRepository.findAll();
-        return betMapper.toBetDtoList(bets);
+    public Page<BetDto> findAll(Pageable pageable) {
+        return betCrudRepository.findAllProjected(pageable);
     }
 
     @Override
@@ -70,26 +69,17 @@ public class BetRepositoryImpl implements IBetRepository {
     }
 
     @Override
-    public List<BetDto> findByCompetition(UUID competicionId) {
-        List<BetEntity> bets = betCrudRepository.findByCompetitionId(competicionId);
-        return betMapper.toBetDtoList(bets);
+    public Page<BetDto> findByCompetition(Pageable pageable ,UUID competicionId) {
+        return betCrudRepository.findByCompetitionId(pageable, competicionId);
     }
 
     @Override
-    public List<BetDto> findByCategory(UUID categoryId) {
-        List<BetEntity> bets = betCrudRepository.findByCompetitionCategoryId(categoryId);
-        return betMapper.toBetDtoList(bets);
-    }
-
-    @Override
-    public List<BetDto> findByCompetitionAndCategory(UUID competitionId, UUID categoryId) {
-        List<BetEntity> bets = betCrudRepository.findByCompetitionIdAndCompetitionCategoryId(competitionId, categoryId);
-        return betMapper.toBetDtoList(bets);
+    public Page<BetDto> findByCategory(Pageable pageable, UUID categoryId) {
+        return betCrudRepository.findByCategoryId(categoryId, pageable);
     }
 
     @Override
     public Page<BetDto> findAllAvailable(Pageable pageable) {
-        return betCrudRepository.findByStatusTrue(pageable)
-                .map(betMapper::toBetDto);
+        return betCrudRepository.findByStatusTrue(pageable);
     }
 }

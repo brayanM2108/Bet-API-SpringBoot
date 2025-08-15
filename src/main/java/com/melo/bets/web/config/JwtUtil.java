@@ -27,7 +27,7 @@ public class JwtUtil {
                 withSubject(username).
                 withIssuer("melo-bets").
                 withIssuedAt(new Date()).
-                withExpiresAt(new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(60))).
+                withExpiresAt(new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(180))).
                 sign(algorithm);
     }
 

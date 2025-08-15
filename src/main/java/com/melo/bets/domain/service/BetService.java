@@ -29,8 +29,9 @@ public class BetService {
         this.userCrudRepository = userCrudRepository;
     }
 
-    public List<BetDto> getAllBets() {
-        return betRepository.findAll();
+    public Page<BetDto> getAllBets(int page, int elements) {
+        Pageable pageRequest = PageRequest.of(page, elements);
+        return betRepository.findAll(pageRequest);
     }
 
     public Optional<BetDto> getBet(UUID id) {
@@ -64,13 +65,13 @@ public class BetService {
         if (bet.title() != null && bet.title().isBlank()) {
             throw new IllegalArgumentException("The tittle cannot be empty.");
         }
-        if (bet.odds() != null && bet.odds().compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("The odds must be greater than or equal to zero.");
+        if (bet.odds() != null && bet.odds().compareTo(BigDecimal.ONE) <= 1) {
+            throw new IllegalArgumentException("The odds must be greater than or equal to one.");
         }
         if (bet.price() != null && bet.price().compareTo(BigDecimal.ZERO) <0) {
             throw new IllegalArgumentException("The price must be greater than or equal to zero.");
         }
-        if (bet.date().isBefore(java.time.LocalDateTime.now())) {
+        if (bet.date() != null && bet.date().isBefore(java.time.LocalDateTime.now())) {
             throw new IllegalArgumentException("The date cannot be in the past.");
         }
 
@@ -85,15 +86,14 @@ public class BetService {
         return false;
     }
 
-    public List<BetDto> findByCompetition(UUID competicionId) {
-        return betRepository.findByCompetition(competicionId);
+    public Page<BetDto> findByCompetition(int page, int elements, UUID competicionId) {
+        Pageable pageRequest = PageRequest.of(page, elements);
+        return betRepository.findByCompetition(pageRequest, competicionId);
     }
 
-    public List<BetDto> findByCategory(UUID categoryId) {
-        return betRepository.findByCategory(categoryId);
+    public Page<BetDto> findByCategory(int page, int elements, UUID categoryId) {
+        Pageable pageRequest = PageRequest.of(page, elements);
+        return betRepository.findByCategory(pageRequest, categoryId);
     }
 
-    public List<BetDto> findByCompetitionAndCategory(UUID competitionId, UUID categoryId) {
-        return betRepository.findByCompetitionAndCategory(competitionId, categoryId);
-    }
 }

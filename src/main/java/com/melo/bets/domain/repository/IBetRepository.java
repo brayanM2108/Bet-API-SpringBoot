@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public interface IBetRepository {
 
-    List<BetDto> findAll();
+    Page<BetDto> findAll(Pageable pageable);
 
     Optional<BetDto> findById(UUID id);
 
@@ -22,11 +22,9 @@ public interface IBetRepository {
 
     void delete(UUID id);
 
-    List<BetDto> findByCompetition(UUID competicionId);
+    Page<BetDto> findByCompetition(Pageable pageable, UUID competicionId);
 
-    List<BetDto> findByCategory(UUID categoryId);
-
-    List<BetDto> findByCompetitionAndCategory(UUID competitionId, UUID categoryId);
+    Page<BetDto> findByCategory(Pageable pageable, UUID categoryId);
 
     Page<BetDto> findAllAvailable(Pageable pageable);
 }

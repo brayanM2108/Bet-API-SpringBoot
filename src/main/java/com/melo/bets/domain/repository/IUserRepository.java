@@ -3,6 +3,7 @@ package com.melo.bets.domain.repository;
 import com.melo.bets.domain.dto.user.LoginDto;
 import com.melo.bets.domain.dto.user.UserDto;
 import com.melo.bets.domain.dto.user.UserRegisterDto;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
