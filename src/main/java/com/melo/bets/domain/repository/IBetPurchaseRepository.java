@@ -1,7 +1,12 @@
 package com.melo.bets.domain.repository;
 
-import com.melo.bets.domain.BetPurchase;
+
+import com.melo.bets.domain.dto.betPurchase.BetPurchaseCreatorDetailsDto;
 import com.melo.bets.domain.dto.betPurchase.BetPurchaseDto;
+import com.melo.bets.domain.dto.betPurchase.BetPurchaseCreateDto;
+import com.melo.bets.domain.dto.betPurchase.BetPurchaseUserDetailsDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,19 +14,19 @@ import java.util.UUID;
 
 public interface IBetPurchaseRepository {
 
-    List<BetPurchaseDto> findAll();
+    Page<BetPurchaseDto> findAll(Pageable pageable);
 
     Optional<BetPurchaseDto> findById(UUID id);
 
-    List<BetPurchaseDto> findByUserId(UUID userid);
+    Page<BetPurchaseUserDetailsDto> findByUserId(Pageable pageable, UUID userid);
 
-    List<BetPurchaseDto> findByCreatorId(UUID creatorId);
+    Page<BetPurchaseCreatorDetailsDto> findByCreatorId(Pageable pageable, UUID creatorId);
 
     List<BetPurchaseDto> findByBetId(UUID betId);
 
-    Optional<BetPurchase> getByUserAndBet(UUID userId, UUID betId);
+    Optional<BetPurchaseDto> getByUserAndBet(UUID userId, UUID betId);
 
-    BetPurchase save(BetPurchase betPurchase);
+    BetPurchaseCreateDto save(BetPurchaseCreateDto betPurchase);
 
     void delete(UUID id);
 

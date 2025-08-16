@@ -1,14 +1,21 @@
 package com.melo.bets.persistence;
 
-import com.melo.bets.domain.BetPurchase;
+import com.melo.bets.domain.dto.betPurchase.BetPurchaseCreatorDetailsDto;
 import com.melo.bets.domain.dto.betPurchase.BetPurchaseDto;
+import com.melo.bets.domain.dto.betPurchase.BetPurchaseCreateDto;
+import com.melo.bets.domain.dto.betPurchase.BetPurchaseUserDetailsDto;
 import com.melo.bets.domain.repository.IBetPurchaseRepository;
 import com.melo.bets.persistence.crud.BetPurchaseCrudRepository;
 import com.melo.bets.persistence.entity.BetPurchaseEntity;
 import com.melo.bets.persistence.mapper.BetPurchaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,9 +33,8 @@ public class BetPurchaseRepositoryImpl implements IBetPurchaseRepository {
     }
 
     @Override
-    public List<BetPurchaseDto> findAll() {
-        List<BetPurchaseEntity> betPurchases = betPurchaseCrudRepository.findAll();
-        return betPurchaseMapper.toBetPurchaseListDto(betPurchases);
+    public Page<BetPurchaseDto> findAll(Pageable pageable) {
+        return betPurchaseCrudRepository.findAllProjected(pageable);
     }
 
     @Override
@@ -37,15 +43,13 @@ public class BetPurchaseRepositoryImpl implements IBetPurchaseRepository {
     }
 
     @Override
-    public List<BetPurchaseDto> findByUserId(UUID id) {
-        List<BetPurchaseEntity> betPurchases = betPurchaseCrudRepository.findByUserId(id);
-        return betPurchaseMapper.toBetPurchaseListDto(betPurchases);
+    public Page<BetPurchaseUserDetailsDto> findByUserId(Pageable pageable, UUID id) {
+        return betPurchaseCrudRepository.findByUserId(pageable,id);
     }
 
     @Override
-    public List<BetPurchaseDto> findByCreatorId(UUID creatorId) {
-        List<BetPurchaseEntity> betPurchases = betPurchaseCrudRepository.findByBetCreatorId(creatorId);
-        return betPurchaseMapper.toBetPurchaseListDto(betPurchases);
+    public Page<BetPurchaseCreatorDetailsDto> findByCreatorId(Pageable pageable, UUID creatorId) {
+        return betPurchaseCrudRepository.findByBetCreatorId(pageable, creatorId);
     }
 
     @Override
@@ -55,19 +59,28 @@ public class BetPurchaseRepositoryImpl implements IBetPurchaseRepository {
     }
 
     @Override
-    public Optional<BetPurchase> getByUserAndBet(UUID userId, UUID betId) {
+    public Optional<BetPurchaseDto> getByUserAndBet(UUID userId, UUID betId) {
         return betPurchaseCrudRepository.findByUserIdAndBetId(userId, betId)
-                .map(betPurchaseMapper::toBetPurchase);
+                .map(betPurchaseMapper::toBetPurchaseDto);
     }
 
     @Override
-    public BetPurchase save(BetPurchase betPurchase) {
-        BetPurchaseEntity betPurchaseEntity = betPurchaseMapper.toBetPurchaseEntity(betPurchase);
-        return betPurchaseMapper.toBetPurchase(betPurchaseCrudRepository.save(betPurchaseEntity));
+    public BetPurchaseCreateDto save(BetPurchaseCreateDto betPurchase) {
+        BetPurchaseEntity betPurchaseEntity = betPurchaseMapper.toBetPurchaseCreateEntity(betPurchase);
+
+        betPurchaseEntity.setUserId(betPurchase.userId());
+        betPurchaseEntity.setBetId(betPurchase.betId());
+        betPurchaseEntity.setOrderNumber(generarNumeroOrden()); // Asignas el número de orden aquí
+        betPurchaseEntity.setPurchaseDate(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+        return betPurchaseMapper.toBetPurchaseCreateDto(betPurchaseCrudRepository.save(betPurchaseEntity));
     }
 
     @Override
     public void delete(UUID id) {
         betPurchaseCrudRepository.deleteById(id);
+    }
+
+    private String generarNumeroOrden() {
+        return UUID.randomUUID().toString();
     }
 }

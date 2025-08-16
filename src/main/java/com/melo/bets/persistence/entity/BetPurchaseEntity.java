@@ -29,6 +29,9 @@ public class BetPurchaseEntity {
     @Column(name = "usuario_id", nullable = false)
     private UUID userId;
 
+    @Column(name = "numero_orden", nullable = false, unique = true)
+    private String orderNumber;
+
     @ManyToOne
     @JoinColumn(name = "apuesta_id", insertable = false, updatable = false)
     private BetEntity betEntity;

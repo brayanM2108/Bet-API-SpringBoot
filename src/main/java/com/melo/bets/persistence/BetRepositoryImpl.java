@@ -2,6 +2,7 @@ package com.melo.bets.persistence;
 
 import com.melo.bets.domain.dto.bet.BetCreateDto;
 import com.melo.bets.domain.dto.bet.BetDto;
+import com.melo.bets.domain.dto.bet.BetPriceDto;
 import com.melo.bets.domain.dto.bet.BetUpdateDto;
 import com.melo.bets.domain.repository.IBetRepository;
 import com.melo.bets.persistence.crud.BetCrudRepository;
@@ -34,6 +35,11 @@ public class BetRepositoryImpl implements IBetRepository {
     @Override
     public Optional<BetDto> findById(UUID id) {
         return betCrudRepository.findById(id).map(betMapper::toBetDto);
+    }
+
+    @Override
+    public Optional<BetPriceDto> findPrice(UUID id) {
+        return betCrudRepository.findBetPrice(id);
     }
 
     @Override

@@ -1,12 +1,15 @@
 package com.melo.bets.persistence.crud;
 
 import com.melo.bets.domain.dto.bet.BetDto;
+import com.melo.bets.domain.dto.bet.BetPriceDto;
 import com.melo.bets.persistence.entity.BetEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import java.util.Optional;
 import java.util.UUID;
 
 public interface BetCrudRepository extends JpaRepository<BetEntity, UUID> {
@@ -102,4 +105,11 @@ JOIN c.category cat
 WHERE b.status = true
 """)
     Page<BetDto> findByStatusTrue(Pageable pageable);
+
+    @Query(value = """
+            SELECT new com.melo.bets.domain.dto.bet.BetPriceDto
+(u.id, u.price)
+FROM BetEntity u WHERE u.id = :betId
+""")
+    Optional<BetPriceDto> findBetPrice(UUID betId);
 }

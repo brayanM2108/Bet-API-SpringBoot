@@ -1,10 +1,12 @@
 package com.melo.bets.domain.service;
 
 import com.melo.bets.domain.dto.user.LoginDto;
+import com.melo.bets.domain.dto.user.UserBalanceDto;
 import com.melo.bets.domain.dto.user.UserDto;
 import com.melo.bets.domain.dto.user.UserRegisterDto;
 import com.melo.bets.persistence.UserRepositoryImpl;
 import com.melo.bets.persistence.crud.UserCrudRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,6 +42,13 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
+    public Optional<UserBalanceDto> getBalance(UUID id) {
+        return userRepository.findBalance(id);
+    }
+    @Transactional
+    public void updateBalance(UserBalanceDto userBalance) {
+        userRepository.updateBalance(userBalance.id(), userBalance.balance());
+    }
 
     public UserRegisterDto save(UserRegisterDto user) {
         if (userCrudRepository.findByEmail(user.getEmail()).isPresent()) {

@@ -1,6 +1,6 @@
 package com.melo.bets.domain.service;
 
-import com.melo.bets.domain.BetPurchase;
+
 import com.melo.bets.domain.RaffleParticipation;
 import com.melo.bets.persistence.RaffleParticipationRepositoryImpl;
 import com.melo.bets.persistence.crud.RaffleCrudRepository;

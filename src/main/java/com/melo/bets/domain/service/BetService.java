@@ -2,6 +2,7 @@ package com.melo.bets.domain.service;
 
 import com.melo.bets.domain.dto.bet.BetCreateDto;
 import com.melo.bets.domain.dto.bet.BetDto;
+import com.melo.bets.domain.dto.bet.BetPriceDto;
 import com.melo.bets.domain.dto.bet.BetUpdateDto;
 import com.melo.bets.domain.repository.IBetRepository;
 import com.melo.bets.persistence.crud.UserCrudRepository;
@@ -58,6 +59,10 @@ public class BetService {
 
 
         return betRepository.save(bet);
+    }
+
+    public Optional<BetPriceDto> getPrice(UUID id) {
+        return betRepository.findPrice(id);
     }
 
     public Optional<BetUpdateDto> updateBet(UUID id, BetUpdateDto bet) {

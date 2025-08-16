@@ -2,6 +2,7 @@ package com.melo.bets.domain.repository;
 
 import com.melo.bets.domain.dto.bet.BetCreateDto;
 import com.melo.bets.domain.dto.bet.BetDto;
+import com.melo.bets.domain.dto.bet.BetPriceDto;
 import com.melo.bets.domain.dto.bet.BetUpdateDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,8 @@ public interface IBetRepository {
     Page<BetDto> findAll(Pageable pageable);
 
     Optional<BetDto> findById(UUID id);
+
+    Optional <BetPriceDto> findPrice(UUID id);
 
     BetCreateDto save(BetCreateDto bet);
 

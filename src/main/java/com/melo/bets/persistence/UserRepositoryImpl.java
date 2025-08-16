@@ -1,6 +1,7 @@
 package com.melo.bets.persistence;
 
 import com.melo.bets.domain.dto.user.LoginDto;
+import com.melo.bets.domain.dto.user.UserBalanceDto;
 import com.melo.bets.domain.dto.user.UserDto;
 import com.melo.bets.domain.dto.user.UserRegisterDto;
 import com.melo.bets.domain.repository.IUserRepository;
@@ -8,8 +9,11 @@ import com.melo.bets.persistence.crud.UserCrudRepository;
 import com.melo.bets.persistence.entity.UserEntity;
 import com.melo.bets.persistence.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -41,6 +45,17 @@ public class UserRepositoryImpl implements IUserRepository {
     @Override
     public Optional<LoginDto> findByEmail(String email) {
         return userCrudRepository.findByEmail(email).map(userMapper::toLoginDto);
+    }
+
+    @Override
+    public Optional<UserBalanceDto> findBalance(UUID id) {
+        return userCrudRepository.findBalanceByUserId(id);
+    }
+    @Modifying
+    @Transactional
+    @Override
+    public int updateBalance(UUID id,  BigDecimal balance) {
+        return userCrudRepository.updateBalance(id, balance);
     }
 
     @Override

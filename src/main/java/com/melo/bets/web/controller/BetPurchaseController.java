@@ -1,8 +1,12 @@
 package com.melo.bets.web.controller;
 
-import com.melo.bets.domain.BetPurchase;
+
+import com.melo.bets.domain.dto.betPurchase.BetPurchaseCreateDto;
+import com.melo.bets.domain.dto.betPurchase.BetPurchaseCreatorDetailsDto;
 import com.melo.bets.domain.dto.betPurchase.BetPurchaseDto;
+import com.melo.bets.domain.dto.betPurchase.BetPurchaseUserDetailsDto;
 import com.melo.bets.domain.service.BetPurchaseService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +25,9 @@ public class BetPurchaseController {
     }
 
     @GetMapping
-    public ResponseEntity <List<BetPurchaseDto>> getAll() {
-        return new ResponseEntity<> (betPurchaseService.getAll(), HttpStatus.OK);
+    public ResponseEntity <Page<BetPurchaseDto>> getAll(@RequestParam(defaultValue = "0") int page,
+                                                        @RequestParam(defaultValue = "10") int size)  {
+        return new ResponseEntity<> (betPurchaseService.getAll(page, size), HttpStatus.OK);
     }
     @GetMapping("{id}")
     public ResponseEntity <BetPurchaseDto> getById(@PathVariable("id") UUID id) {
@@ -35,17 +40,21 @@ public class BetPurchaseController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity <List<BetPurchaseDto>> getByUser(@PathVariable ("id") UUID userId) {
-        return new ResponseEntity<> (betPurchaseService.getByUser(userId), HttpStatus.OK);
+    public ResponseEntity <Page<BetPurchaseUserDetailsDto>> getByUser(@RequestParam(defaultValue = "0") int page,
+                                                                      @RequestParam(defaultValue = "10") int size,
+                                                                      @PathVariable ("id") UUID userId) {
+        return new ResponseEntity<> (betPurchaseService.getByUser(page, size, userId), HttpStatus.OK);
     }
 
     @GetMapping("/creator/{id}")
-    public ResponseEntity <List<BetPurchaseDto>> getByCreator(@PathVariable ("id") UUID creatorId) {
-        return new ResponseEntity<> (betPurchaseService.getByCreatorId(creatorId), HttpStatus.OK);
+    public ResponseEntity <Page<BetPurchaseCreatorDetailsDto>> getByCreator(@RequestParam (defaultValue = "0") int page,
+                                                                            @RequestParam (defaultValue = "10") int size,
+                                                                            @PathVariable ("id") UUID creatorId) {
+        return new ResponseEntity<> (betPurchaseService.getByCreatorId(page, size, creatorId), HttpStatus.OK);
     }
 
     @GetMapping("/userandbet")
-    public ResponseEntity<BetPurchase> getByUserAndBet(@RequestParam UUID userId,
+    public ResponseEntity<BetPurchaseDto> getByUserAndBet(@RequestParam UUID userId,
                                                        @RequestParam UUID betId) {
         return betPurchaseService.getByUserAndBet(userId, betId)
                 .map(ResponseEntity::ok)
@@ -53,8 +62,8 @@ public class BetPurchaseController {
     }
 
     @PostMapping
-    public ResponseEntity<BetPurchase> save(@RequestBody BetPurchase betPurchase) {
-        BetPurchase savedBetPurchase = betPurchaseService.save(betPurchase);
+    public ResponseEntity<BetPurchaseCreateDto> save(@RequestBody BetPurchaseCreateDto betPurchase) {
+        BetPurchaseCreateDto savedBetPurchase = betPurchaseService.save(betPurchase);
         return new ResponseEntity<>(savedBetPurchase, HttpStatus.CREATED);
     }
 
