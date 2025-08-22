@@ -12,5 +12,6 @@ public record BetCreateDto(
         LocalDateTime date,
         String betType,
         UUID competitionId,
-        UUID userId
+        UUID userId,
+        String image
 ) {}

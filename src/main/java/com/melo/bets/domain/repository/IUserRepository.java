@@ -4,7 +4,6 @@ import com.melo.bets.domain.dto.user.LoginDto;
 import com.melo.bets.domain.dto.user.UserBalanceDto;
 import com.melo.bets.domain.dto.user.UserDto;
 import com.melo.bets.domain.dto.user.UserRegisterDto;
-import org.springframework.data.jpa.repository.Query;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -21,7 +20,7 @@ public interface IUserRepository {
 
     Optional<UserBalanceDto> findBalance(UUID id);
 
-    int updateBalance(UUID id, BigDecimal balance);
+    void updateBalance(UUID id, BigDecimal balance);
 
     UserRegisterDto save(UserRegisterDto user);
 

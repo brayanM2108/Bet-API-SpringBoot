@@ -3,7 +3,7 @@ package com.melo.bets.domain.service;
 
 import com.melo.bets.domain.Payment;
 import com.melo.bets.domain.repository.IPaymentRepository;
-import com.melo.bets.persistence.crud.UserCrudRepository;
+import com.melo.bets.infrastructure.persistence.crud.UserCrudRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

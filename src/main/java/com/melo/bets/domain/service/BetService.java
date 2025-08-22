@@ -5,16 +5,15 @@ import com.melo.bets.domain.dto.bet.BetDto;
 import com.melo.bets.domain.dto.bet.BetPriceDto;
 import com.melo.bets.domain.dto.bet.BetUpdateDto;
 import com.melo.bets.domain.repository.IBetRepository;
-import com.melo.bets.persistence.crud.UserCrudRepository;
+import com.melo.bets.infrastructure.persistence.crud.UserCrudRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.multipart.MultipartFile;
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,12 +21,13 @@ import java.util.UUID;
 public class BetService {
     private final IBetRepository betRepository;
     private final UserCrudRepository userCrudRepository;
-
+    private final StorageImageService storageImageService;
 
     @Autowired
-    public BetService(IBetRepository betRepository, UserCrudRepository userCrudRepository) {
+    public BetService(IBetRepository betRepository, UserCrudRepository userCrudRepository, StorageImageService storageImageService) {
         this.betRepository = betRepository;
         this.userCrudRepository = userCrudRepository;
+        this.storageImageService = storageImageService;
     }
 
     public Page<BetDto> getAllBets(int page, int elements) {
@@ -46,19 +46,39 @@ public class BetService {
         return betRepository.findAllAvailable(pageRequest);
     }
 
-    public BetCreateDto saveBet(BetCreateDto bet) {
+    public BetCreateDto saveBet(BetCreateDto bet, MultipartFile imageFile) throws Exception {
 
         // 1. Verificar que el userId no sea null
         if (bet.userId() == null) {
             throw new IllegalArgumentException("User ID is required.");
         }
 
-        // 2. Buscar el usuario en la base de datos
-        userCrudRepository.findById(bet.userId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + bet.userId()));
+        // 2. Verificar que el usuario existe
+        final BetCreateDto originalBet = bet;
+        userCrudRepository.findById(originalBet.userId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + originalBet.userId()));
 
 
-        return betRepository.save(bet);
+        // 3. Subir imagen
+        String imageUrl = storageImageService.processAndUploadImage(imageFile, "bets");
+
+
+
+        // 4. Crear DTO completo con URL de imagen
+        BetCreateDto betWithImage = new BetCreateDto(
+                bet.title(),
+                bet.description(),
+                bet.odds(),
+                bet.price(),
+                bet.date(),
+                bet.betType(),
+                bet.competitionId(),
+                bet.userId(),
+                imageUrl
+        );
+
+        // 5. Guardar usando el DTO con imagen
+        return betRepository.save(betWithImage, imageFile);
     }
 
     public Optional<BetPriceDto> getPrice(UUID id) {
@@ -70,7 +90,7 @@ public class BetService {
         if (bet.title() != null && bet.title().isBlank()) {
             throw new IllegalArgumentException("The tittle cannot be empty.");
         }
-        if (bet.odds() != null && bet.odds().compareTo(BigDecimal.ONE) <= 1) {
+        if (bet.odds() != null && bet.odds().compareTo(BigDecimal.ONE) < 1) {
             throw new IllegalArgumentException("The odds must be greater than or equal to one.");
         }
         if (bet.price() != null && bet.price().compareTo(BigDecimal.ZERO) <0) {

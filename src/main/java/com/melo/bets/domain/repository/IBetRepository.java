@@ -6,6 +6,7 @@ import com.melo.bets.domain.dto.bet.BetPriceDto;
 import com.melo.bets.domain.dto.bet.BetUpdateDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +20,7 @@ public interface IBetRepository {
 
     Optional <BetPriceDto> findPrice(UUID id);
 
-    BetCreateDto save(BetCreateDto bet);
+    BetCreateDto save(BetCreateDto bet, MultipartFile file);
 
     Optional <BetUpdateDto> update(UUID id, BetUpdateDto bet);
 

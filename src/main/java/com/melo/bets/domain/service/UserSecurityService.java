@@ -1,7 +1,7 @@
 package com.melo.bets.domain.service;
 
-import com.melo.bets.domain.UserRole;
 import com.melo.bets.domain.dto.user.LoginDto;
+import com.melo.bets.domain.dto.user.UserRole;
 import com.melo.bets.domain.repository.IUserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

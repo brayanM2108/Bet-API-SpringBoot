@@ -1,8 +1,6 @@
 package com.melo.bets.domain.dto.user;
 
-import com.melo.bets.domain.UserRole;
 import lombok.Data;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;

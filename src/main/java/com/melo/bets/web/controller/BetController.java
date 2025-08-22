@@ -1,5 +1,6 @@
 package com.melo.bets.web.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.melo.bets.domain.dto.bet.BetCreateDto;
 import com.melo.bets.domain.dto.bet.BetDto;
 import com.melo.bets.domain.dto.bet.BetUpdateDto;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -57,9 +59,14 @@ public class BetController {
     }
 
 
-    @PostMapping
-    public ResponseEntity<BetCreateDto> save(@RequestBody BetCreateDto bet) {
-        return new ResponseEntity<>(betService.saveBet(bet), HttpStatus.CREATED);
+    @PostMapping(consumes = "multipart/form-data")
+    public ResponseEntity<BetCreateDto> save(
+            @RequestPart("bet") String betJson,
+            @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
+        BetCreateDto bet = mapper.readValue(betJson, BetCreateDto.class);
+        return new ResponseEntity<>(betService.saveBet(bet, imageFile), HttpStatus.CREATED);
     }
 
     @PatchMapping("{id}")

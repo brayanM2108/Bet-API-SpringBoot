@@ -4,8 +4,7 @@ import com.melo.bets.domain.dto.user.LoginDto;
 import com.melo.bets.domain.dto.user.UserBalanceDto;
 import com.melo.bets.domain.dto.user.UserDto;
 import com.melo.bets.domain.dto.user.UserRegisterDto;
-import com.melo.bets.persistence.UserRepositoryImpl;
-import com.melo.bets.persistence.crud.UserCrudRepository;
+import com.melo.bets.infrastructure.persistence.UserRepositoryImpl;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,12 +17,11 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepositoryImpl userRepository;
-    private final UserCrudRepository userCrudRepository;
     private final PasswordEncoder passwordEncoder;
     @Autowired
-    public UserService(UserRepositoryImpl userRepository, UserCrudRepository userCrudRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepositoryImpl userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.userCrudRepository = userCrudRepository;
+
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -51,7 +49,7 @@ public class UserService {
     }
 
     public UserRegisterDto save(UserRegisterDto user) {
-        if (userCrudRepository.findByEmail(user.getEmail()).isPresent()) {
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
                 throw new IllegalArgumentException("Email already exists.");
         }
 
