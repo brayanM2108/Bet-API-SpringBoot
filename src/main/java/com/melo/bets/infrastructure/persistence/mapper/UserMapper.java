@@ -13,20 +13,19 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = {UserRoleMapper.class})
 public interface UserMapper {
 
-
+    // Entity to DTOs
     UserDto toUserDto(UserEntity user);
-
     LoginDto toLoginDto(UserEntity user);
-
     UserRegisterDto toUserRegisterDto(UserEntity user);
-
     List<UserDto> toUserDtoList(List<UserEntity> users);
 
 
+    // DTO to Entity
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "document", ignore = true)
     UserEntity toUserDTOEntity(UserDto userDto);
 
+    // RegisterDto to Entity
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "roles", ignore = true)
     @Mapping(target = "registrationDate", ignore = true)

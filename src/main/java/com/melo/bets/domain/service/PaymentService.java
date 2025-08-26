@@ -1,12 +1,15 @@
 package com.melo.bets.domain.service;
 
-
-import com.melo.bets.domain.Payment;
+import com.melo.bets.domain.dto.payment.PaymentCreateDto;
+import com.melo.bets.domain.dto.payment.PaymentDto;
 import com.melo.bets.domain.repository.IPaymentRepository;
 import com.melo.bets.infrastructure.persistence.crud.UserCrudRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,27 +25,30 @@ public class PaymentService {
         this.userCrudRepository = userCrudRepository;
     }
 
-    public List<Payment> getAll() {
-        return paymentRepository.findAll();
+    public Page<PaymentDto> getAll(int page, int elements, String sortBy, String SortDirection) {
+        Pageable pageRequest = PageRequest.of(page, elements);
+        Sort sort = Sort.by(Sort.Direction.fromString(SortDirection), sortBy);
+        return paymentRepository.findAll(pageRequest);
     }
 
-    public Optional<Payment> getById(UUID id) {
+    public Optional<PaymentDto> getById(UUID id) {
         return paymentRepository.findById(id);
     }
 
-    public List<Payment> getByUser(UUID userId) {
-        return paymentRepository.findByUserId(userId);
+    public Page<PaymentDto> getByUser(int page, int elements, UUID userId) {
+        Pageable pageRequest = PageRequest.of(page, elements);
+        return paymentRepository.findByUserId(pageRequest, userId);
     }
 
-    public Payment save(Payment payment) {
+    public PaymentCreateDto save(PaymentCreateDto payment) {
         // 1. Verificar que el userId no sea null
-        if (payment.getUserId() == null) {
+        if (payment.userId() == null) {
             throw new IllegalArgumentException("User ID is required.");
         }
 
         // 2. Buscar el usuario en la base de datos
-        userCrudRepository.findById(payment.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + payment.getUserId()));
+        userCrudRepository.findById(payment.userId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + payment.userId()));
 
         return paymentRepository.save(payment);
     }

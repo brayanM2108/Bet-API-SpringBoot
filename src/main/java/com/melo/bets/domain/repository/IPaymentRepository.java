@@ -1,6 +1,9 @@
 package com.melo.bets.domain.repository;
 
-import com.melo.bets.domain.Payment;
+import com.melo.bets.domain.dto.payment.PaymentCreateDto;
+import com.melo.bets.domain.dto.payment.PaymentDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,13 +11,13 @@ import java.util.UUID;
 
 public interface IPaymentRepository {
 
-    List<Payment> findAll();
+    Page<PaymentDto> findAll(Pageable pageable);
 
-    Optional<Payment> findById(UUID id);
+    Optional<PaymentDto> findById(UUID id);
 
-    List<Payment> findByUserId(UUID userId);
+    Page<PaymentDto> findByUserId(Pageable pageable, UUID userId);
 
-    Payment save(Payment payment);
+    PaymentCreateDto save(PaymentCreateDto payment);
 
     void delete(UUID id);
 }

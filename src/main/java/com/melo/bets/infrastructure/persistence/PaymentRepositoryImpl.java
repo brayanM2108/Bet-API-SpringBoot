@@ -1,14 +1,16 @@
 package com.melo.bets.infrastructure.persistence;
 
-import com.melo.bets.domain.Payment;
+
+import com.melo.bets.domain.dto.payment.PaymentCreateDto;
+import com.melo.bets.domain.dto.payment.PaymentDto;
 import com.melo.bets.domain.repository.IPaymentRepository;
 import com.melo.bets.infrastructure.persistence.crud.PaymentCrudRepository;
 import com.melo.bets.infrastructure.persistence.entity.PaymentEntity;
 import com.melo.bets.infrastructure.persistence.mapper.PaymentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,26 +26,24 @@ public class PaymentRepositoryImpl implements IPaymentRepository {
     }
 
     @Override
-    public List<Payment> findAll() {
-        List<PaymentEntity> payments = paymentCrudRepository.findAll();
-        return paymentMapper.toPaymentList(payments);
+    public Page<PaymentDto> findAll(Pageable pageable) {
+        return paymentCrudRepository.findAllProjected(pageable);
     }
 
     @Override
-    public Optional<Payment> findById(UUID id) {
+    public Optional<PaymentDto> findById(UUID id) {
         return paymentCrudRepository.findById(id).map(paymentMapper::toPayment);
     }
 
     @Override
-    public List<Payment> findByUserId(UUID userId) {
-        List<PaymentEntity> payments = paymentCrudRepository.findByUserId(userId);
-        return paymentMapper.toPaymentList(payments);
+    public Page<PaymentDto> findByUserId(Pageable pageable, UUID userId) {
+        return paymentCrudRepository.findByUserId(pageable, userId);
     }
 
     @Override
-    public Payment save(Payment payment) {
-        PaymentEntity paymentEntity = paymentMapper.toPaymentEntity(payment);
-        return paymentMapper.toPayment(paymentCrudRepository.save(paymentEntity));
+    public PaymentCreateDto save(PaymentCreateDto payment) {
+        PaymentEntity paymentEntity = paymentMapper.toPaymentCreateDto(payment);
+        return paymentMapper.toPaymentCreateDto(paymentCrudRepository.save(paymentEntity));
     }
 
     @Override

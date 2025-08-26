@@ -13,10 +13,13 @@ import java.util.List;
 public interface UserRoleMapper {
 
 
-
+    // Entity to DTO conversion
     UserRole toUserRole(UserRoleEntity userRoleEntity);
+
+    // List of entities to list of DTOs conversion
     List<UserRole> toUserRoles(List<UserRoleEntity> userRoleEntities);
 
+    // DTO to entity conversion
     @InheritInverseConfiguration
     UserRoleEntity toUserRoleEntity(UserRole userRole);
 }

@@ -1,8 +1,10 @@
 package com.melo.bets.web.controller;
 
-import com.melo.bets.domain.Payment;
+import com.melo.bets.domain.dto.payment.PaymentCreateDto;
+import com.melo.bets.domain.dto.payment.PaymentDto;
 import com.melo.bets.domain.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,22 +22,27 @@ public class PaymentController {
     }
 
     @GetMapping
-    public List<Payment> getAll() {
-        return paymentService.getAll();
+    public ResponseEntity <Page<PaymentDto>> getAll(@RequestParam (defaultValue = "0") int page,
+                                                    @RequestParam (defaultValue = "10")int elements,
+                                                    @RequestParam (defaultValue = "paymentType") String sortBy,
+                                                    @RequestParam (defaultValue = "ASC") String sortDirection) {
+        return new ResponseEntity<>(paymentService.getAll(page, elements, sortBy, sortDirection), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Payment> getById(@PathVariable UUID id) {
+    public ResponseEntity<PaymentDto> getById(@PathVariable UUID id) {
         return ResponseEntity.of(paymentService.getById(id));
     }
 
     @GetMapping("/user/{userId}")
-    public List<Payment> getByUserId(@PathVariable UUID userId) {
-        return paymentService.getByUser(userId);
+    public ResponseEntity <Page<PaymentDto>> getByUserId(@RequestParam (defaultValue = "0") int page,
+                                                         @RequestParam (defaultValue = "10")int elements,
+                                                         @PathVariable UUID userId) {
+        return new ResponseEntity<>(paymentService.getByUser(page, elements, userId), HttpStatus.OK)  ;
     }
 
     @PostMapping
-    public ResponseEntity<Payment> save(@RequestBody Payment payment) {
+    public ResponseEntity<PaymentCreateDto> save(@RequestBody PaymentCreateDto payment) {
         return new ResponseEntity<>(paymentService.save(payment), HttpStatus.CREATED);
     }
 
