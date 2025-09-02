@@ -4,7 +4,6 @@ import com.melo.bets.domain.dto.user.LoginDto;
 import com.melo.bets.domain.dto.user.UserBalanceDto;
 import com.melo.bets.domain.dto.user.UserDto;
 import com.melo.bets.domain.dto.user.UserRegisterDto;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;

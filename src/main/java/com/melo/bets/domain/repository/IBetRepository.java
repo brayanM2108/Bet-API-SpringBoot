@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,7 +22,7 @@ public interface IBetRepository {
 
     BetCreateDto save(BetCreateDto bet, MultipartFile file);
 
-    Optional <BetUpdateDto> update(UUID id, BetUpdateDto bet);
+    Optional <BetDto> update(UUID id, BetUpdateDto bet);
 
     void delete(UUID id);
 

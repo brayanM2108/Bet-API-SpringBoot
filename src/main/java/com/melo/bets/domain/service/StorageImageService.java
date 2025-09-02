@@ -1,6 +1,6 @@
 package com.melo.bets.domain.service;
 
-import com.melo.bets.domain.IStorageRepository;
+import com.melo.bets.domain.repository.IStorageRepository;
 import com.melo.bets.domain.ImageProcessor;
 import com.melo.bets.domain.ImageValidator;
 import org.springframework.beans.factory.annotation.Autowired;

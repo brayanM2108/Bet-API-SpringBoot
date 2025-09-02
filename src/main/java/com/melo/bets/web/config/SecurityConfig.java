@@ -31,15 +31,16 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(customizeRequest -> customizeRequest
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/users").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/users/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
-                        .requestMatchers("/bet/**").authenticated()
-                        .requestMatchers("/raffles/**").authenticated()
-                        .requestMatchers("/bet-purchase/**").authenticated()
-                        .requestMatchers("/payment/**").authenticated()
-                        .requestMatchers("/raffle-participation/**").authenticated()
+                        .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/users/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/users/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/bet/**").authenticated()
+                        .requestMatchers("/api/v1/raffles/**").authenticated()
+                        .requestMatchers("/api/v1/bet-purchase/**").authenticated()
+                        .requestMatchers("/api/v1/payment/**").authenticated()
+                        .requestMatchers("/api/v1/raffle-participation/**").authenticated()
                         .anyRequest().authenticated())
 
                 .csrf(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults())

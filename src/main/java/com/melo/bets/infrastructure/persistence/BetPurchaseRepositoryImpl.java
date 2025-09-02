@@ -58,7 +58,7 @@ public class BetPurchaseRepositoryImpl implements IBetPurchaseRepository {
     }
 
     @Override
-    public Optional<BetPurchaseDto> getByUserAndBet(UUID userId, UUID betId) {
+    public Optional<BetPurchaseDto> findByUserAndBet(UUID userId, UUID betId) {
         return betPurchaseCrudRepository.findByUserIdAndBetId(userId, betId)
                 .map(betPurchaseMapper::toBetPurchaseDto);
     }

@@ -7,8 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class ImageValidationService implements ImageValidator {
 
-
-
     /**
      * Sanitizes filename to be URL-safe by removing/replacing invalid characters
      */

@@ -1,6 +1,6 @@
 package com.melo.bets.infrastructure.storage;
 
-import com.melo.bets.domain.IStorageRepository;
+import com.melo.bets.domain.repository.IStorageRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,13 +24,14 @@ public class SupabaseStorageService implements IStorageRepository {
     @Value("${supabase.storage.url}")
     private String SUPABASE_URL;
 
+
     public String uploadAndGetUrl(String fileName, MultipartFile imageFile) throws Exception {
         Path tempFile = Files.createTempFile("bet-image-", ".tmp");
         imageFile.transferTo(tempFile.toFile());
         uploadImage(fileName, tempFile);
         Files.delete(tempFile);
 
-        return "https://gksiwbiyvbinlkykpkib.storage.supabase.co/storage/v1/object/imagenes/" + fileName;
+        return SUPABASE_URL + BUCKET + "/" + fileName;
     }
 
     public void uploadImage(String fileName, Path imagePath) throws Exception {

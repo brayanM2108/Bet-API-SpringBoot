@@ -60,7 +60,7 @@ public class BetPurchaseService {
     }
 
     public Optional<BetPurchaseDto> getByUserAndBet(UUID userId, UUID betId) {
-        return betPurchaseRepository.getByUserAndBet(userId, betId);
+        return betPurchaseRepository.findByUserAndBet(userId, betId);
     }
 
     @Transactional

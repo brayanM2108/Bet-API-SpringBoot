@@ -24,7 +24,7 @@ public interface IBetPurchaseRepository {
 
     List<BetPurchaseDto> findByBetId(UUID betId);
 
-    Optional<BetPurchaseDto> getByUserAndBet(UUID userId, UUID betId);
+    Optional<BetPurchaseDto> findByUserAndBet(UUID userId, UUID betId);
 
     BetPurchaseCreateDto save(BetPurchaseCreateDto betPurchase);
 

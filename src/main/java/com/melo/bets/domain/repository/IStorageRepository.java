@@ -1,4 +1,4 @@
-package com.melo.bets.domain;
+package com.melo.bets.domain.repository;
 
 
 import org.springframework.web.multipart.MultipartFile;

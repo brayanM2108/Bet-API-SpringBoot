@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/bet-purchases")
+@RequestMapping("/api/v1/bet-purchases")
 public class BetPurchaseController {
 
     private final BetPurchaseService betPurchaseService;

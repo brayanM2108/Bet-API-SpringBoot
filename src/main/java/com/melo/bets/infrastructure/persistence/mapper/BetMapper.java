@@ -22,11 +22,11 @@ public interface BetMapper {
 
 
     // --- Mappers for create bets ---
+    @Mapping(target = "result", expression = "java(\"pendiente\")")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "creator", ignore = true)
     @Mapping(target = "competition", ignore = true)
     @Mapping(target = "status", expression = "java(true)")
-    @Mapping(target = "result", expression = "java(\"pendiente\")")
     BetEntity toBetCreateEntity(BetCreateDto betCreateDto);
 
     BetCreateDto toBetCreateDto(BetEntity betEntity);
