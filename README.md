@@ -1,4 +1,4 @@
-# BetShare - API de Apuestas y Rifas
+# BetShare - Plataforma de Picks Deportivos
 
 **BetShare** es una plataforma desarrollada en **Java** con **Spring Boot.** Diseñada para gestionar operaciones relacionadas con pronósticos deportivos. El sistema ofrece funcionalidades completas de registro y autenticación mediante JWT, gestión de usuarios, control de acceso por roles, y lógica de negocio para la publicación, compra y administración de picks deportivos.
 
