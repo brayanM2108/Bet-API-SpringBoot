@@ -41,7 +41,6 @@ public class BetService {
     }
 
     public Optional<BetDto> get(UUID id) {
-
         return betRepository.findById(id);
     }
 
