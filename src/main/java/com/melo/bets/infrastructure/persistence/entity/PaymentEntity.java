@@ -27,7 +27,7 @@ public class PaymentEntity {
     private String paymentType;
 
     @Column(name = "fecha_pago", nullable = false)
-    private LocalDateTime paymentDate = LocalDateTime.now();
+    private LocalDateTime paymentDate = LocalDateTime.now().withNano(0);
 
     @Column(name = "usuario_id", nullable = false)
     private UUID userId;

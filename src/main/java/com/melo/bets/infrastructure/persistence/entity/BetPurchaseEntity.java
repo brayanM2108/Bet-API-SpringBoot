@@ -21,7 +21,7 @@ public class BetPurchaseEntity {
     private UUID id;
 
     @Column(name = "fecha_compra")
-    private LocalDateTime purchaseDate = LocalDateTime.now();
+    private LocalDateTime purchaseDate = LocalDateTime.now().withNano(0);
 
     @Column(name = "apuesta_id", nullable = false)
     private UUID betId;

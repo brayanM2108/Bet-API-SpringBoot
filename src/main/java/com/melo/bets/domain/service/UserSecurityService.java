@@ -2,6 +2,7 @@ package com.melo.bets.domain.service;
 
 import com.melo.bets.domain.dto.user.LoginDto;
 import com.melo.bets.domain.dto.user.UserRole;
+import com.melo.bets.domain.exception.InvalidCredentialsException;
 import com.melo.bets.domain.repository.IUserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +10,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,9 +28,9 @@ public class UserSecurityService implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws InvalidCredentialsException {
         LoginDto user = this.userRepository.findByEmail(email).
-                orElseThrow(()-> new UsernameNotFoundException("User not found with email: " + email));
+                orElseThrow (InvalidCredentialsException::new);
 
         String[] roles = user.getRoles().stream().map(UserRole::getRole).toArray(String[]::new);
 

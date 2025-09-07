@@ -2,6 +2,7 @@ package com.melo.bets.web.controller;
 
 import com.melo.bets.domain.dto.user.LoginDto;
 import com.melo.bets.web.config.JwtUtil;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login (@RequestBody LoginDto loginDto){
+    public ResponseEntity<Void> login (@Valid @RequestBody LoginDto loginDto){
         UsernamePasswordAuthenticationToken login = new UsernamePasswordAuthenticationToken(
                 loginDto.getEmail(), loginDto.getPassword());
         Authentication authentication = this.authenticationManager.authenticate(login);

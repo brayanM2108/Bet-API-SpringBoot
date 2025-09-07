@@ -3,7 +3,7 @@ package com.melo.bets.domain.service;
 import com.melo.bets.domain.dto.payment.PaymentCreateDto;
 import com.melo.bets.domain.dto.payment.PaymentDto;
 import com.melo.bets.domain.repository.IPaymentRepository;
-import com.melo.bets.infrastructure.persistence.crud.UserCrudRepository;
+import com.melo.bets.domain.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,11 +17,12 @@ import java.util.UUID;
 public class PaymentService {
 
     private final IPaymentRepository paymentRepository;
-    private final UserCrudRepository userCrudRepository;
+    private final IUserRepository userRepository;
     @Autowired
-    public PaymentService(IPaymentRepository paymentRepository, UserCrudRepository userCrudRepository) {
+    public PaymentService(IPaymentRepository paymentRepository, IUserRepository userRepository) {
         this.paymentRepository = paymentRepository;
-        this.userCrudRepository = userCrudRepository;
+
+        this.userRepository = userRepository;
     }
 
     public Page<PaymentDto> getAll(int page, int elements, String sortBy, String SortDirection) {
@@ -46,7 +47,7 @@ public class PaymentService {
         }
 
         // 2. Buscar el usuario en la base de datos
-        userCrudRepository.findById(payment.userId())
+        userRepository.findById(payment.userId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + payment.userId()));
 
         return paymentRepository.save(payment);

@@ -17,6 +17,8 @@ public interface IUserRepository {
 
     Optional<LoginDto> findByEmail(String email);
 
+    boolean existByDocument(String document);
+
     Optional<UserBalanceDto> findBalance(UUID id);
 
     void updateBalance(UUID id, BigDecimal balance);

@@ -6,10 +6,10 @@ import com.melo.bets.domain.dto.bet.BetPriceDto;
 import com.melo.bets.domain.dto.bet.BetUpdateDto;
 import com.melo.bets.domain.exception.BetNotFoundException;
 import com.melo.bets.domain.repository.IBetRepository;
-import com.melo.bets.domain.repository.ICategoryRepository;
-import com.melo.bets.domain.repository.ICompetitionRepository;
-import com.melo.bets.domain.repository.IUserRepository;
 import com.melo.bets.infrastructure.persistence.crud.BetCrudRepository;
+import com.melo.bets.infrastructure.persistence.crud.CategoryCrudRepository;
+import com.melo.bets.infrastructure.persistence.crud.CompetitionCrudRepository;
+import com.melo.bets.infrastructure.persistence.crud.UserCrudRepository;
 import com.melo.bets.infrastructure.persistence.entity.BetEntity;
 import com.melo.bets.infrastructure.persistence.mapper.BetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,17 +24,17 @@ import java.util.UUID;
 @Repository
 public class BetRepositoryImpl implements IBetRepository {
     private final BetCrudRepository betCrudRepository;
-    private final ICompetitionRepository competitionRepository;
-    private final ICategoryRepository categoryRepository;
-    private final IUserRepository userRepository;
+    private final CompetitionCrudRepository competitionRepository;
+    private final CategoryCrudRepository categoryRepository;
+    private final UserCrudRepository userRepository;
     private final BetMapper betMapper;
 
     @Autowired
-    public BetRepositoryImpl(BetCrudRepository betCrudRepository, 
-                           ICompetitionRepository competitionRepository, 
-                           ICategoryRepository categoryRepository, 
-                           IUserRepository userRepository, 
-                           BetMapper betMapper) {
+    public BetRepositoryImpl(BetCrudRepository betCrudRepository,
+                             CompetitionCrudRepository competitionRepository,
+                             CategoryCrudRepository categoryRepository,
+                             UserCrudRepository userRepository,
+                             BetMapper betMapper) {
         this.betCrudRepository = betCrudRepository;
         this.competitionRepository = competitionRepository;
         this.categoryRepository = categoryRepository;

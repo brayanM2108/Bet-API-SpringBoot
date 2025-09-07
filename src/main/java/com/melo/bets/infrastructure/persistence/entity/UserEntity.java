@@ -33,7 +33,7 @@ public class UserEntity {
     private BigDecimal balance = BigDecimal.ZERO;
 
     @Column(name = "fecha_registro", updatable = false)
-    private LocalDateTime registrationDate = LocalDateTime.now();
+    private LocalDateTime registrationDate = LocalDateTime.now().withNano(0);
 
     @Column(name = "estado", columnDefinition = "boolean default true")
     private Boolean status;

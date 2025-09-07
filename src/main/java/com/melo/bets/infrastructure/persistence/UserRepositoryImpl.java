@@ -50,9 +50,16 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     @Override
+    public boolean existByDocument(String document) {
+        return userCrudRepository.existsByDocument(document);
+    }
+
+
+    @Override
     public Optional<UserBalanceDto> findBalance(UUID id) {
         return userCrudRepository.findBalanceByUserId(id);
     }
+
     @Modifying
     @Transactional
     @Override

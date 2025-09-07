@@ -43,6 +43,24 @@ public class RestExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<Error> handleException (EmailAlreadyExistsException ex) {
+        Error error = new Error("UserAlreadyExist", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<Error> handleException (InvalidCredentialsException ex) {
+        Error error = new Error("InvalidCredentials", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(DocumentAlreadyExistsException.class)
+    public ResponseEntity<Error> handleException (DocumentAlreadyExistsException ex) {
+        Error error = new Error("DocumentAlreadyExist", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<List<Error>> handleException (MethodArgumentNotValidException ex) {
         List<Error> errors = new ArrayList<>();
@@ -50,7 +68,6 @@ public class RestExceptionHandler {
                 (fieldError -> errors.add(new Error(fieldError.getField(), fieldError.getDefaultMessage())));
         return ResponseEntity.badRequest().body(errors);
     }
-
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Error> handleException (Exception ex) {

@@ -1,12 +1,12 @@
 package com.melo.bets.domain.dto.bet;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
-@JsonIgnoreProperties(ignoreUnknown = true)
+
 public record BetCreateDto(
 
         @NotBlank(message = "the title is required")
