@@ -2,8 +2,9 @@ package com.melo.bets.domain.service;
 
 import com.melo.bets.domain.dto.payment.PaymentCreateDto;
 import com.melo.bets.domain.dto.payment.PaymentDto;
+import com.melo.bets.domain.exception.PaymentNotFoundException;
+import com.melo.bets.domain.exception.UserNotFoundException;
 import com.melo.bets.domain.repository.IPaymentRepository;
-import com.melo.bets.domain.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,12 +18,14 @@ import java.util.UUID;
 public class PaymentService {
 
     private final IPaymentRepository paymentRepository;
-    private final IUserRepository userRepository;
-    @Autowired
-    public PaymentService(IPaymentRepository paymentRepository, IUserRepository userRepository) {
-        this.paymentRepository = paymentRepository;
+    private final UserService userService;
+    private final BalanceService balanceService;
 
-        this.userRepository = userRepository;
+    @Autowired
+    public PaymentService(IPaymentRepository paymentRepository, UserService userService, BalanceService balanceService) {
+        this.paymentRepository = paymentRepository;
+        this.userService = userService;
+        this.balanceService = balanceService;
     }
 
     public Page<PaymentDto> getAll(int page, int elements, String sortBy, String SortDirection) {
@@ -32,32 +35,36 @@ public class PaymentService {
     }
 
     public Optional<PaymentDto> getById(UUID id) {
+        if (paymentRepository.findById(id).isEmpty()) {
+            throw new PaymentNotFoundException(id);
+        }
         return paymentRepository.findById(id);
     }
 
     public Page<PaymentDto> getByUser(int page, int elements, UUID userId) {
+        if (userService.getById(userId).isEmpty()) {
+            throw new UserNotFoundException(userId);
+        }
+
         Pageable pageRequest = PageRequest.of(page, elements);
         return paymentRepository.findByUserId(pageRequest, userId);
     }
 
     public PaymentCreateDto save(PaymentCreateDto payment) {
-        // 1. Verificar que el userId no sea null
-        if (payment.userId() == null) {
-            throw new IllegalArgumentException("User ID is required.");
-        }
 
-        // 2. Buscar el usuario en la base de datos
-        userRepository.findById(payment.userId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + payment.userId()));
+        if (userService.getById(payment.userId()).isEmpty()) {
+            throw new UserNotFoundException(payment.userId());
+        }
+        balanceService.addBalance(payment.userId(), payment.amount());
 
         return paymentRepository.save(payment);
     }
 
     public boolean delete(UUID id) {
-        if (getById(id).isPresent()) {
-            paymentRepository.delete(id);
-            return true;
+        if (getById(id).isEmpty()) {
+            throw new PaymentNotFoundException(id);
         }
-        return false;
+        return true;
     }
+
 }

@@ -1,11 +1,9 @@
 package com.melo.bets.web.controller;
 
 
-import com.melo.bets.domain.dto.betPurchase.BetPurchaseCreateDto;
-import com.melo.bets.domain.dto.betPurchase.BetPurchaseCreatorDetailsDto;
-import com.melo.bets.domain.dto.betPurchase.BetPurchaseDto;
-import com.melo.bets.domain.dto.betPurchase.BetPurchaseUserDetailsDto;
+import com.melo.bets.domain.dto.betPurchase.*;
 import com.melo.bets.domain.service.BetPurchaseService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,8 +60,8 @@ public class BetPurchaseController {
     }
 
     @PostMapping
-    public ResponseEntity<BetPurchaseCreateDto> save(@RequestBody BetPurchaseCreateDto betPurchase) {
-        BetPurchaseCreateDto savedBetPurchase = betPurchaseService.save(betPurchase);
+    public ResponseEntity<BetPurchaseCreateResponseDto> save(@Valid @RequestBody BetPurchaseCreateDto betPurchase) {
+        BetPurchaseCreateResponseDto savedBetPurchase = betPurchaseService.save(betPurchase);
         return new ResponseEntity<>(savedBetPurchase, HttpStatus.CREATED);
     }
 

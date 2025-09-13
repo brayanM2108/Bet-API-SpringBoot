@@ -3,6 +3,7 @@ package com.melo.bets.web.controller;
 import com.melo.bets.domain.dto.payment.PaymentCreateDto;
 import com.melo.bets.domain.dto.payment.PaymentDto;
 import com.melo.bets.domain.service.PaymentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -41,7 +42,7 @@ public class PaymentController {
     }
 
     @PostMapping
-    public ResponseEntity<PaymentCreateDto> save(@RequestBody PaymentCreateDto payment) {
+    public ResponseEntity<PaymentCreateDto> save(@Valid @RequestBody PaymentCreateDto payment) {
         return new ResponseEntity<>(paymentService.save(payment), HttpStatus.CREATED);
     }
 

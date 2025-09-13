@@ -23,6 +23,7 @@ public interface BetPurchaseCrudRepository extends JpaRepository<BetPurchaseEnti
         b.userEntity.id,
         b.orderNumber,
         bet.title,
+        bet.price,
         b.betEntity.creator.name,
         b.userEntity.name,
         b.purchaseDate

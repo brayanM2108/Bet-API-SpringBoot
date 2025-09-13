@@ -61,6 +61,18 @@ public class RestExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
+    @ExceptionHandler(PaymentNotFoundException.class)
+    public ResponseEntity<Error> handleException (PaymentNotFoundException ex) {
+        Error error = new Error("PaymentNotExist", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(UserDoesNotEnoughFundsException.class)
+    public ResponseEntity<Error> handleException (UserDoesNotEnoughFundsException ex) {
+        Error error = new Error("UserEnoughFund", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<List<Error>> handleException (MethodArgumentNotValidException ex) {
         List<Error> errors = new ArrayList<>();

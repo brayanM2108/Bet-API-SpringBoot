@@ -1,13 +1,11 @@
 package com.melo.bets.domain.repository;
 
 
-import com.melo.bets.domain.dto.betPurchase.BetPurchaseCreatorDetailsDto;
-import com.melo.bets.domain.dto.betPurchase.BetPurchaseDto;
-import com.melo.bets.domain.dto.betPurchase.BetPurchaseCreateDto;
-import com.melo.bets.domain.dto.betPurchase.BetPurchaseUserDetailsDto;
+import com.melo.bets.domain.dto.betPurchase.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,7 +24,7 @@ public interface IBetPurchaseRepository {
 
     Optional<BetPurchaseDto> findByUserAndBet(UUID userId, UUID betId);
 
-    BetPurchaseCreateDto save(BetPurchaseCreateDto betPurchase);
+    BetPurchaseCreateResponseDto save(BetPurchaseCreateDto betPurchase, BigDecimal betPrice);
 
     void delete(UUID id);
 

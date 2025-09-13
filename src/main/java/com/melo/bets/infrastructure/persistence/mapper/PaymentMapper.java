@@ -21,9 +21,11 @@ public interface PaymentMapper {
     PaymentCreateDto toPaymentCreateDto(PaymentEntity payment);
 
     // CreateDto to Entity
+    @Mapping(target = "paymentType", ignore = true)
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "userEntity", ignore = true)
     @Mapping(target = "paymentDate", ignore = true)
-    PaymentEntity toPaymentCreateDto(PaymentCreateDto payment);
+    PaymentEntity toPaymentCreateEntity(PaymentCreateDto payment);
 
     // DTO to Entity
     @InheritInverseConfiguration

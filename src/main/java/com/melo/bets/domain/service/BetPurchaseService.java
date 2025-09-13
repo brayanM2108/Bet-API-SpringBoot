@@ -1,14 +1,9 @@
 package com.melo.bets.domain.service;
 
-
-import com.melo.bets.domain.dto.betPurchase.BetPurchaseCreateDto;
-import com.melo.bets.domain.dto.betPurchase.BetPurchaseCreatorDetailsDto;
-import com.melo.bets.domain.dto.betPurchase.BetPurchaseDto;
-import com.melo.bets.domain.dto.betPurchase.BetPurchaseUserDetailsDto;
-import com.melo.bets.domain.dto.user.UserBalanceDto;
+import com.melo.bets.domain.dto.betPurchase.*;
+import com.melo.bets.domain.exception.BetNotFoundException;
+import com.melo.bets.domain.exception.UserDoesNotEnoughFundsException;
 import com.melo.bets.domain.repository.IBetPurchaseRepository;
-import com.melo.bets.infrastructure.persistence.crud.BetCrudRepository;
-import com.melo.bets.infrastructure.persistence.crud.UserCrudRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,23 +19,25 @@ import java.util.UUID;
 public class BetPurchaseService {
 
     private final IBetPurchaseRepository betPurchaseRepository;
-    private final BetCrudRepository betCrudRepository;
-    private final UserCrudRepository userCrudRepository;
     private final UserService userService;
     private final BetService betService;
+    private final BalanceService balanceService;
 
-    public BetPurchaseService(IBetPurchaseRepository betPurchaseRepository, BetCrudRepository betCrudRepository, UserCrudRepository userCrudRepository, UserService userService, BetService betService) {
+    public BetPurchaseService(IBetPurchaseRepository betPurchaseRepository,
+                              UserService userService,
+                              BetService betService,
+                              BalanceService balanceService) {
         this.betPurchaseRepository = betPurchaseRepository;
-        this.betCrudRepository = betCrudRepository;
-        this.userCrudRepository = userCrudRepository;
         this.userService = userService;
         this.betService = betService;
+        this.balanceService = balanceService;
     }
 
     public Page<BetPurchaseDto> getAll(int page, int elements) {
         Pageable pageRequest = PageRequest.of(page, elements);
         return betPurchaseRepository.findAll(pageRequest);
     }
+
     public Optional<BetPurchaseDto> getById(UUID id) {
         return betPurchaseRepository.findById(id);
     }
@@ -50,7 +47,7 @@ public class BetPurchaseService {
         return betPurchaseRepository.findByUserId(pageRequest, userId);
     }
 
-    public Page<BetPurchaseCreatorDetailsDto> getByCreatorId(int pages, int elements, UUID creatorId){
+    public Page<BetPurchaseCreatorDetailsDto> getByCreatorId(int pages, int elements, UUID creatorId) {
         Pageable pageRequest = PageRequest.of(pages, elements);
         return betPurchaseRepository.findByCreatorId(pageRequest, creatorId);
     }
@@ -64,55 +61,39 @@ public class BetPurchaseService {
     }
 
     @Transactional
-    public BetPurchaseCreateDto save(BetPurchaseCreateDto betPurchase) {
-
-
+    public BetPurchaseCreateResponseDto save(BetPurchaseCreateDto betPurchase) {
         UUID userId = betPurchase.userId();
         UUID betId = betPurchase.betId();
 
 
-        if (userId == null || betId == null) {
-            throw new IllegalArgumentException("User ID and Bet ID are required.");
-        }
-        // Verifica que el usuario exista
-        boolean userExists = userCrudRepository.existsById(userId);
-        if (!userExists) {
-            throw new IllegalArgumentException("User not found with ID: " + userId);
-        }
+        userService.getById(userId);
+        betService.get(betId);
+        validateUserHasNotPurchasedBet(userId, betId);
 
-        if (getByUserAndBet(userId, betId).isPresent()) {
-            throw new IllegalArgumentException("User has already purchased this bet.");
-        }
-
-        // Verifica que la apuesta exista
-        boolean betExists = betCrudRepository.existsById(betId);
-        if (!betExists) {
-            throw new IllegalArgumentException("Bet not found with ID: " + betId);
-        }
-
-        BigDecimal balance = userService.getBalance(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Usuario not found with ID: " + userId))
-                .balance();
-
-        BigDecimal price = betService.getPrice(betId)
-                .orElseThrow(() -> new IllegalArgumentException("Bet not found with ID: " + betId))
+        BigDecimal betPrice = betService.getPrice(betId)
+                .orElseThrow(() -> new BetNotFoundException(betId))
                 .price();
 
-        if (balance.compareTo(price) < 0) {
-            throw new IllegalArgumentException("The user does not have enough funds to make the bet.");
+        if (!balanceService.hasSufficientFunds(userId, betPrice)) {
+            throw new UserDoesNotEnoughFundsException(userId);
         }
 
-        BigDecimal newBalance = balance.subtract(price);
-        userService.updateBalance(new UserBalanceDto(userId, newBalance));
-
-        return betPurchaseRepository.save(betPurchase);
+        balanceService.deductBalance(userId, betPrice);
+        return betPurchaseRepository.save(betPurchase, betPrice);
     }
 
     public boolean delete(UUID id) {
         if (getById(id).isPresent()) {
             betPurchaseRepository.delete(id);
             return true;
-        }else return false;
+        }
+        return false;
+    }
+
+    private void validateUserHasNotPurchasedBet(UUID userId, UUID betId) {
+        if (getByUserAndBet(userId, betId).isPresent()) {
+            throw new IllegalArgumentException("User has already purchased this bet.");
+        }
     }
 
 }
