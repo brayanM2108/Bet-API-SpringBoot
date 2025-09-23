@@ -22,7 +22,7 @@ public class UserSecurityService implements UserDetailsService {
 
     private final IUserRepository userRepository;
     private static final Logger logger = LoggerFactory.getLogger(UserSecurityService.class);
-    public UserSecurityService(IUserRepository userRepository) {
+        public UserSecurityService(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
