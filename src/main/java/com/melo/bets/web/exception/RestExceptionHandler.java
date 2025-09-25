@@ -25,8 +25,8 @@ public class RestExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
-    @ExceptionHandler(CategoryNotFoundException.class)
-    public ResponseEntity<Error> handleException (CategoryNotFoundException ex){
+    @ExceptionHandler(CategoryNotExistException.class)
+    public ResponseEntity<Error> handleException (CategoryNotExistException ex){
         Error error = new Error("CategoryNotExist", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }

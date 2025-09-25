@@ -1,6 +1,6 @@
 package com.melo.bets.infrastructure.persistence;
 
-import com.melo.bets.domain.exception.CategoryNotFoundException;
+import com.melo.bets.domain.exception.CategoryNotExistException;
 import com.melo.bets.domain.repository.ICategoryRepository;
 import com.melo.bets.infrastructure.persistence.crud.CategoryCrudRepository;
 import com.melo.bets.infrastructure.persistence.entity.CategoryEntity;
@@ -22,7 +22,7 @@ public class CategoryRepositoryImpl implements ICategoryRepository {
     public Optional<CategoryEntity> findById(UUID id) {
         Optional<CategoryEntity> category = categoryCrudRepository.findById(id);
         if (category.isEmpty()) {
-            throw new CategoryNotFoundException(id);
+            throw new CategoryNotExistException(id);
         }
         return category;
     }
