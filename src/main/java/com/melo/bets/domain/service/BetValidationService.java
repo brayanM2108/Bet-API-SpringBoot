@@ -2,10 +2,9 @@ package com.melo.bets.domain.service;
 
 import com.melo.bets.domain.dto.bet.BetDto;
 import com.melo.bets.domain.dto.bet.BetUpdateDto;
-import com.melo.bets.domain.exception.BetNotUpdateException;
+import com.melo.bets.domain.exception.custom.BetNotUpdateException;
 import com.melo.bets.domain.repository.IBetPurchaseRepository;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.UUID;

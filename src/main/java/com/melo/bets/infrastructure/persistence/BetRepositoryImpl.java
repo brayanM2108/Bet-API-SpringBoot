@@ -4,10 +4,10 @@ import com.melo.bets.domain.dto.bet.BetCreateDto;
 import com.melo.bets.domain.dto.bet.BetDto;
 import com.melo.bets.domain.dto.bet.BetPriceDto;
 import com.melo.bets.domain.dto.bet.BetUpdateDto;
-import com.melo.bets.domain.exception.BetNotFoundException;
-import com.melo.bets.domain.exception.CategoryNotExistException;
-import com.melo.bets.domain.exception.CompetitionNotExistException;
-import com.melo.bets.domain.exception.UserNotFoundException;
+import com.melo.bets.domain.exception.custom.BetNotFoundException;
+import com.melo.bets.domain.exception.custom.CategoryNotExistException;
+import com.melo.bets.domain.exception.custom.CompetitionNotExistException;
+import com.melo.bets.domain.exception.custom.UserNotFoundException;
 import com.melo.bets.domain.repository.IBetRepository;
 import com.melo.bets.infrastructure.persistence.crud.BetCrudRepository;
 import com.melo.bets.infrastructure.persistence.crud.CategoryCrudRepository;
@@ -62,7 +62,7 @@ public class BetRepositoryImpl implements IBetRepository {
 
     @Override
     public Optional<BetPriceDto> findPrice(UUID id) {
-        if (betCrudRepository.existsById(id)) throw new BetNotFoundException(id);
+        if (!betCrudRepository.existsById(id)) throw new BetNotFoundException(id);
         return betCrudRepository.findBetPrice(id);
     }
 

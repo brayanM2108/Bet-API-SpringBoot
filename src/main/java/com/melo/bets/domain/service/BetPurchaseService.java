@@ -1,8 +1,8 @@
 package com.melo.bets.domain.service;
 
 import com.melo.bets.domain.dto.betPurchase.*;
-import com.melo.bets.domain.exception.BetNotFoundException;
-import com.melo.bets.domain.exception.UserDoesNotEnoughFundsException;
+import com.melo.bets.domain.exception.custom.BetNotFoundException;
+import com.melo.bets.domain.exception.custom.UserDoesNotEnoughFundsException;
 import com.melo.bets.domain.repository.IBetPurchaseRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

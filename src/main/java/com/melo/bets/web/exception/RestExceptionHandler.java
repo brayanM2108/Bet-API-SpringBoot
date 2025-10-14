@@ -1,90 +1,86 @@
 package com.melo.bets.web.exception;
 
-import com.melo.bets.domain.exception.*;
+import com.melo.bets.domain.exception.custom.*;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @RestControllerAdvice
 public class RestExceptionHandler {
 
-    @ExceptionHandler(BetNotFoundException.class)
-    public ResponseEntity<Error> handleException(BetNotFoundException ex) {
-        Error error = new Error("BetNotExist", ex.getMessage());
+    @ExceptionHandler({
+            BetNotFoundException.class,
+            CompetitionNotExistException.class,
+            CategoryNotExistException.class,
+            UserNotFoundException.class,
+            PaymentNotFoundException.class
+    })
+    public ResponseEntity<ErrorResponse> handleNotFoundException(HttpServletRequest request, BetNotFoundException ex) {
+        ErrorResponse error = new ErrorResponse(
+                ex.getClass().getSimpleName(),
+                HttpStatus.NOT_FOUND.value(),
+                new Timestamp(System.currentTimeMillis()),
+                request.getRequestURI()
+        );
+        error.getErrors().put("message", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
-    @ExceptionHandler(CompetitionNotExistException.class)
-    public ResponseEntity<Error> handleException (CompetitionNotExistException ex){
-        Error error = new Error("CompetitionNotExist", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-    }
-
-    @ExceptionHandler(CategoryNotExistException.class)
-    public ResponseEntity<Error> handleException (CategoryNotExistException ex){
-        Error error = new Error("CategoryNotExist", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-    }
-
-    @ExceptionHandler(BetNotUpdateException.class)
-    public ResponseEntity<Error> handleException (BetNotUpdateException ex) {
-        Error error = new Error("BetUpdateError", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-    }
-
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Error> handleException (UserNotFoundException ex) {
-        Error error = new Error("UserNotExist", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-    }
-
-    @ExceptionHandler(EmailAlreadyExistsException.class)
-    public ResponseEntity<Error> handleException (EmailAlreadyExistsException ex) {
-        Error error = new Error("UserAlreadyExist", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-    }
-
-    @ExceptionHandler(InvalidCredentialsException.class)
-    public ResponseEntity<Error> handleException (InvalidCredentialsException ex) {
-        Error error = new Error("InvalidCredentials", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-    }
-
-    @ExceptionHandler(DocumentAlreadyExistsException.class)
-    public ResponseEntity<Error> handleException (DocumentAlreadyExistsException ex) {
-        Error error = new Error("DocumentAlreadyExist", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-    }
-
-    @ExceptionHandler(PaymentNotFoundException.class)
-    public ResponseEntity<Error> handleException (PaymentNotFoundException ex) {
-        Error error = new Error("PaymentNotExist", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-    }
-
-    @ExceptionHandler(UserDoesNotEnoughFundsException.class)
-    public ResponseEntity<Error> handleException (UserDoesNotEnoughFundsException ex) {
-        Error error = new Error("UserEnoughFund", ex.getMessage());
+    @ExceptionHandler({
+            BetNotUpdateException.class,
+            EmailAlreadyExistsException.class,
+            InvalidCredentialsException.class,
+            DocumentAlreadyExistsException.class,
+            UserDoesNotEnoughFundsException.class
+    })
+    public ResponseEntity<ErrorResponse> handleBadRequestException(HttpServletRequest request, Exception ex) {
+        ErrorResponse error = new ErrorResponse(
+                ex.getClass().getSimpleName(),
+                HttpStatus.BAD_REQUEST.value(),
+                new Timestamp(System.currentTimeMillis()),
+                request.getRequestURI()
+        );
+        error.getErrors().put("message", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<List<Error>> handleException (MethodArgumentNotValidException ex) {
-        List<Error> errors = new ArrayList<>();
-        ex.getBindingResult().getFieldErrors().forEach
-                (fieldError -> errors.add(new Error(fieldError.getField(), fieldError.getDefaultMessage())));
-        return ResponseEntity.badRequest().body(errors);
+    public ResponseEntity<ErrorResponse> handleMethodArgumentException(HttpServletRequest request, MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(error ->
+                errors.put(error.getField(), error.getDefaultMessage()));
+
+        ErrorResponse errorResponse = new ErrorResponse(
+                ex.getClass().getSimpleName(),
+                HttpStatus.NOT_FOUND.value(),
+                new Timestamp(System.currentTimeMillis()),
+                request.getRequestURI(),
+                errors
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Error> handleException (Exception ex) {
-        Error error = new Error("UnknownError", ex.getMessage());
+    public ResponseEntity<ErrorResponse> handleUnknownException (HttpServletRequest request) {
+        ErrorResponse error = new ErrorResponse(
+                "UnknownError",
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                new Timestamp(System.currentTimeMillis()),
+                request.getRequestURI()
+        );
         return ResponseEntity.internalServerError().body(error);
-    }
+   }
+
+
+
+
 
 }

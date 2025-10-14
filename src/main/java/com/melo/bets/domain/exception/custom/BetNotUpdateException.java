@@ -1,4 +1,4 @@
-package com.melo.bets.domain.exception;
+package com.melo.bets.domain.exception.custom;
 
 public class BetNotUpdateException extends RuntimeException {
 

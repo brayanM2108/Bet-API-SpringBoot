@@ -4,7 +4,7 @@ import com.melo.bets.domain.dto.user.LoginDto;
 import com.melo.bets.domain.dto.user.UserBalanceDto;
 import com.melo.bets.domain.dto.user.UserDto;
 import com.melo.bets.domain.dto.user.UserRegisterDto;
-import com.melo.bets.domain.exception.UserNotFoundException;
+import com.melo.bets.domain.exception.custom.UserNotFoundException;
 import com.melo.bets.domain.repository.IUserRepository;
 import com.melo.bets.infrastructure.persistence.crud.UserCrudRepository;
 import com.melo.bets.infrastructure.persistence.entity.UserEntity;

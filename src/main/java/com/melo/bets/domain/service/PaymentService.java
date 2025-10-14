@@ -2,8 +2,8 @@ package com.melo.bets.domain.service;
 
 import com.melo.bets.domain.dto.payment.PaymentCreateDto;
 import com.melo.bets.domain.dto.payment.PaymentDto;
-import com.melo.bets.domain.exception.PaymentNotFoundException;
-import com.melo.bets.domain.exception.UserNotFoundException;
+import com.melo.bets.domain.exception.custom.PaymentNotFoundException;
+import com.melo.bets.domain.exception.custom.UserNotFoundException;
 import com.melo.bets.domain.repository.IPaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

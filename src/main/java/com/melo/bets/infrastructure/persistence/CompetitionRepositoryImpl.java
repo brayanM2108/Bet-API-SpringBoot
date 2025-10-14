@@ -1,6 +1,6 @@
 package com.melo.bets.infrastructure.persistence;
 
-import com.melo.bets.domain.exception.CompetitionNotExistException;
+import com.melo.bets.domain.exception.custom.CompetitionNotExistException;
 import com.melo.bets.domain.repository.ICompetitionRepository;
 import com.melo.bets.infrastructure.persistence.crud.CompetitionCrudRepository;
 import com.melo.bets.infrastructure.persistence.entity.CompetitionEntity;

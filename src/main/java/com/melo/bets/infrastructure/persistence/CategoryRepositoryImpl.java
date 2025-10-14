@@ -1,6 +1,6 @@
 package com.melo.bets.infrastructure.persistence;
 
-import com.melo.bets.domain.exception.CategoryNotExistException;
+import com.melo.bets.domain.exception.custom.CategoryNotExistException;
 import com.melo.bets.domain.repository.ICategoryRepository;
 import com.melo.bets.infrastructure.persistence.crud.CategoryCrudRepository;
 import com.melo.bets.infrastructure.persistence.entity.CategoryEntity;
