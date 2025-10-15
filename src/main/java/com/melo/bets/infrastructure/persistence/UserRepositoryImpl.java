@@ -10,6 +10,8 @@ import com.melo.bets.infrastructure.persistence.crud.UserCrudRepository;
 import com.melo.bets.infrastructure.persistence.entity.UserEntity;
 import com.melo.bets.infrastructure.persistence.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,9 +35,9 @@ public class UserRepositoryImpl implements IUserRepository {
 
 
     @Override
-    public List<UserDto> findAll() {
-        List<UserEntity> users = userCrudRepository.findAll();
-        return userMapper.toUserDtoList(users);
+    public Page<UserDto> findAll(Pageable pageable) {
+        Page<UserEntity> users = userCrudRepository.findAll(pageable);
+        return users.map(userMapper::toUserDto);
     }
 
     @Override

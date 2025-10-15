@@ -36,8 +36,6 @@ public class RestExceptionHandler {
 
     @ExceptionHandler({
             BetNotUpdateException.class,
-            EmailAlreadyExistsException.class,
-            DocumentAlreadyExistsException.class,
             UserDoesNotEnoughFundsException.class
     })
     public ResponseEntity<ErrorResponse> handleBadRequestException(HttpServletRequest request, Exception ex) {
@@ -63,6 +61,20 @@ public class RestExceptionHandler {
         error.getErrors().put("message", ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
+    @ExceptionHandler({
+            EmailAlreadyExistsException.class,
+            DocumentAlreadyExistsException.class,
+    })
+    public ResponseEntity<ErrorResponse> handleUniqueRestriccionException(HttpServletRequest request, Exception ex) {
+        ErrorResponse error = new ErrorResponse(
+                ex.getClass().getSimpleName(),
+                HttpStatus.CONFLICT.value(),
+                new Timestamp(System.currentTimeMillis()),
+                request.getRequestURI()
+        );
+        error.getErrors().put("message", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentException(HttpServletRequest request, MethodArgumentNotValidException ex) {
@@ -83,10 +95,10 @@ public class RestExceptionHandler {
 
 //    @ExceptionHandler(Exception.class)
 //    public ResponseEntity<ErrorResponse> handleUnknownException(HttpServletRequest request, Exception ex) {
-////        // Evitar capturar excepciones de autenticación
-////        if (ex instanceof AuthenticationException) {
-////            throw (AuthenticationException) ex;
-////        }
+//        // Evitar capturar excepciones de autenticación
+//        if (ex instanceof InvalidCredentialsException) {
+//            throw (InvalidCredentialsException) ex;
+//        }
 //
 //        ErrorResponse error = new ErrorResponse(
 //                "UnknownError",
