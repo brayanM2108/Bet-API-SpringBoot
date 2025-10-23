@@ -3,7 +3,6 @@ package com.melo.bets.web.controller;
 import com.melo.bets.domain.dto.bet.BetCreateDto;
 import com.melo.bets.domain.dto.bet.BetDto;
 import com.melo.bets.domain.dto.bet.BetUpdateDto;
-import com.melo.bets.domain.dto.user.UserRegisterDto;
 import com.melo.bets.domain.service.BetService;
 import com.melo.bets.web.exception.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
