@@ -2,7 +2,8 @@ package com.melo.bets.domain.service;
 
 import com.melo.bets.domain.dto.user.LoginDto;
 import com.melo.bets.domain.exception.custom.InvalidCredentialsException;
-import com.melo.bets.web.config.JwtUtil;
+import com.melo.bets.domain.repository.IUserRepository;
+import com.melo.bets.security.jwt.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -15,11 +16,13 @@ public class AuthService {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
+    private final IUserRepository userRepository;
 
     @Autowired
-    public AuthService(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
+    public AuthService(AuthenticationManager authenticationManager, JwtUtil jwtUtil, IUserRepository userRepository) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
+        this.userRepository = userRepository;
     }
 
     public String authenticate(LoginDto loginDto) {
@@ -29,7 +32,12 @@ public class AuthService {
 
             Authentication authentication = this.authenticationManager.authenticate(login);
 
-            return this.jwtUtil.createToken(loginDto.getEmail());
+            LoginDto user = this.userRepository.findByEmail(loginDto.getEmail())
+                    .orElseThrow(InvalidCredentialsException::new);
+
+            // 3️⃣ Creamos el token con email + UUID como claim
+            return this.jwtUtil.createToken(user.getEmail(), user.getId());
+
         } catch (
                 BadCredentialsException |
                 InvalidCredentialsException e) {

@@ -1,4 +1,4 @@
-package com.melo.bets.web.config;
+package com.melo.bets.security.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

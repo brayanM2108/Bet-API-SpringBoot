@@ -1,5 +1,6 @@
-package com.melo.bets.web.config;
+package com.melo.bets.security.jwt;
 
+import com.melo.bets.security.user.UserDetailsWithId;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,31 +37,31 @@ public class JwtFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
-        // 1️⃣ Validar que haya encabezado Authorization válido
+        // Validate Authorization header exists and is valid
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // 2️⃣ Extraer y validar el token JWT
-        String jwt = authHeader.substring(7).trim(); // elimina el "Bearer "
+        // Extract and validate JWT token
+        String jwt = authHeader.substring(7).trim(); // removes "Bearer "
         if (!jwtUtil.isValid(jwt)) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // 3️⃣ Extraer datos del token (username y userId)
+        // Extract data from token (username and userId)
         String username = jwtUtil.getUsername(jwt);
-        UUID userId = jwtUtil.getUserId(jwt); // 👈 nuevo claim personalizado
+        UUID userId = jwtUtil.getUserId(jwt); // custom claim
 
-        // 4️⃣ Evitar reautenticar si ya hay contexto de seguridad
+        // Avoid re-authenticating if security context already exists
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            // Cargar el usuario desde tu servicio (verifica si existe)
+            // Load user from service (verify it exists)
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-            // 5️⃣ Crear el token de autenticación
+            // Create authentication token
             UserDetailsWithId userDetailsWithId = new UserDetailsWithId(userDetails, userId);
 
             UsernamePasswordAuthenticationToken authToken =
@@ -68,14 +69,14 @@ public class JwtFilter extends OncePerRequestFilter {
 
             authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-            // 6️⃣ Registrar en el contexto de seguridad
+            // Register in security context
             SecurityContextHolder.getContext().setAuthentication(authToken);
 
-            // Opcional: imprimir el ID del usuario autenticado
-            System.out.printf("🔐 Usuario autenticado: %s (id=%s)%n", username, userId);
+            // Optional: print authenticated user ID
+            System.out.printf("🔐 Authenticated user: %s (id=%s)%n", username, userId);
         }
 
-        // 7️⃣ Continuar con el flujo del filtro
+        // Continue with filter chain
         filterChain.doFilter(request, response);
     }
 }

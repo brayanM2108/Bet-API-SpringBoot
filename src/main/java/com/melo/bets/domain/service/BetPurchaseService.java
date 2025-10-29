@@ -4,7 +4,7 @@ import com.melo.bets.domain.dto.betPurchase.*;
 import com.melo.bets.domain.exception.custom.BetNotFoundException;
 import com.melo.bets.domain.exception.custom.UserDoesNotEnoughFundsException;
 import com.melo.bets.domain.repository.IBetPurchaseRepository;
-import com.melo.bets.web.config.SecurityUtils;
+import com.melo.bets.security.util.SecurityUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

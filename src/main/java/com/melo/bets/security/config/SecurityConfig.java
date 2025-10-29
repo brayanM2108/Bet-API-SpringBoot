@@ -1,5 +1,6 @@
-package com.melo.bets.web.config;
+package com.melo.bets.security.config;
 
+import com.melo.bets.security.jwt.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

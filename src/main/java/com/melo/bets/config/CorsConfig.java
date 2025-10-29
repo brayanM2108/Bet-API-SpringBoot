@@ -1,4 +1,4 @@
-package com.melo.bets.web.config;
+package com.melo.bets.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
