@@ -1,5 +1,6 @@
-package com.melo.bets.web.config;
+package com.melo.bets.security.util;
 
+import com.melo.bets.security.user.UserDetailsWithId;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 

@@ -1,4 +1,4 @@
-package com.melo.bets.web.config;
+package com.melo.bets.security.user;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

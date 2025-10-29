@@ -2,9 +2,7 @@ package com.melo.bets.web.controller;
 
 import com.melo.bets.domain.dto.betPurchase.*;
 import com.melo.bets.domain.service.BetPurchaseService;
-import com.melo.bets.web.config.UserDetailsWithId;
 import com.melo.bets.web.exception.ErrorResponse;
-import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -16,7 +14,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
