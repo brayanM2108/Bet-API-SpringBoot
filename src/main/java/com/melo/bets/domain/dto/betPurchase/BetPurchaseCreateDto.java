@@ -6,9 +6,6 @@ import java.util.UUID;
 public record BetPurchaseCreateDto(
 
         @NotNull(message = "the betId is required")
-        UUID betId,
-
-        @NotNull(message = "the UserId is required")
-        UUID userId
+        UUID betId
 )
 {}

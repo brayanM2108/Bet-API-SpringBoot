@@ -24,7 +24,7 @@ public interface IBetPurchaseRepository {
 
     Optional<BetPurchaseDto> findByUserAndBet(UUID userId, UUID betId);
 
-    BetPurchaseCreateResponseDto save(BetPurchaseCreateDto betPurchase, BigDecimal betPrice);
+    BetPurchaseCreateResponseDto save(UUID betId, UUID userId, BigDecimal betPrice);
 
     void delete(UUID id);
 

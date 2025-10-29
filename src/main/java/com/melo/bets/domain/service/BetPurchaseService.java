@@ -4,6 +4,7 @@ import com.melo.bets.domain.dto.betPurchase.*;
 import com.melo.bets.domain.exception.custom.BetNotFoundException;
 import com.melo.bets.domain.exception.custom.UserDoesNotEnoughFundsException;
 import com.melo.bets.domain.repository.IBetPurchaseRepository;
+import com.melo.bets.web.config.SecurityUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -61,10 +62,8 @@ public class BetPurchaseService {
     }
 
     @Transactional
-    public BetPurchaseCreateResponseDto save(BetPurchaseCreateDto betPurchase) {
-        UUID userId = betPurchase.userId();
-        UUID betId = betPurchase.betId();
-
+    public BetPurchaseCreateResponseDto save(UUID betId) {
+        UUID userId = SecurityUtils.getCurrentUserId();
 
         userService.getById(userId);
         betService.get(betId);
@@ -79,7 +78,7 @@ public class BetPurchaseService {
         }
 
         balanceService.deductBalance(userId, betPrice);
-        return betPurchaseRepository.save(betPurchase, betPrice);
+        return betPurchaseRepository.save(betId, userId, betPrice);
     }
 
     public boolean delete(UUID id) {
