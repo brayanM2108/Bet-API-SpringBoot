@@ -26,19 +26,16 @@ public class JwtUtil {
         return createToken(username, null);
     }
 
-    public String createToken(String username, Long userId) {
-        var builder = JWT.create()
-                .withSubject(username)
+    public String createToken(String email, UUID userId) {
+        return JWT.create()
+                .withSubject(email)
                 .withIssuer("melo-bets")
                 .withIssuedAt(new Date())
-                .withExpiresAt(new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(180)));
-
-        if (userId != null) {
-            builder.withClaim("userId", userId);
-        }
-
-        return builder.sign(algorithm);
+                .withExpiresAt(new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(60)))
+                .withClaim("userId", userId.toString())
+                .sign(algorithm);
     }
+
 
     public boolean isValid(String jwt) {
         try{
