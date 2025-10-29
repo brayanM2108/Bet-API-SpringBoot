@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -22,13 +23,21 @@ public class JwtUtil {
     }
 
     public String createToken(String username) {
+        return createToken(username, null);
+    }
 
-        return JWT.create().
-                withSubject(username).
-                withIssuer("melo-bets").
-                withIssuedAt(new Date()).
-                withExpiresAt(new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(180))).
-                sign(algorithm);
+    public String createToken(String username, Long userId) {
+        var builder = JWT.create()
+                .withSubject(username)
+                .withIssuer("melo-bets")
+                .withIssuedAt(new Date())
+                .withExpiresAt(new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(180)));
+
+        if (userId != null) {
+            builder.withClaim("userId", userId);
+        }
+
+        return builder.sign(algorithm);
     }
 
     public boolean isValid(String jwt) {
@@ -42,5 +51,17 @@ public class JwtUtil {
 
     public String getUsername(String jwt) {
         return JWT.require(algorithm).build().verify(jwt).getSubject();
+    }
+
+    public UUID getUserId(String jwt) {
+        var claim = JWT.require(algorithm).build().verify(jwt).getClaim("userId");
+        if (claim == null || claim.isNull()) {
+            return null;
+        }
+        String claimValue = claim.asString();
+        if (claimValue == null || claimValue.isBlank()) {
+            return null;
+        }
+        return UUID.fromString(claimValue);
     }
 }
