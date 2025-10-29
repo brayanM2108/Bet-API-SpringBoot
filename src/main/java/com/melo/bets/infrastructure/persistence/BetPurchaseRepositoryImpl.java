@@ -62,11 +62,12 @@ public class BetPurchaseRepositoryImpl implements IBetPurchaseRepository {
     }
 
     @Override
-    public BetPurchaseCreateResponseDto save(BetPurchaseCreateDto betPurchase, BigDecimal betPrice) {
-        BetPurchaseEntity betPurchaseEntity = betPurchaseMapper.toBetPurchaseCreateEntity(betPurchase);
+    public BetPurchaseCreateResponseDto save(UUID betId, UUID userId, BigDecimal betPrice) {
 
-        betPurchaseEntity.setUserId(betPurchase.userId());
-        betPurchaseEntity.setBetId(betPurchase.betId());
+        BetPurchaseEntity betPurchaseEntity = new BetPurchaseEntity();
+
+        betPurchaseEntity.setUserId(userId);
+        betPurchaseEntity.setBetId(betId);
         betPurchaseEntity.setOrderNumber(generarNumeroOrden());
         betPurchaseEntity.setPurchaseDate(LocalDateTime.now().withNano(0));
 

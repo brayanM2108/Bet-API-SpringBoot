@@ -1,8 +1,6 @@
 package com.melo.bets.domain.dto.bet;
 
-
 import jakarta.validation.constraints.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
