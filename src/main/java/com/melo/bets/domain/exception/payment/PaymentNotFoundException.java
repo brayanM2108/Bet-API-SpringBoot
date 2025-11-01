@@ -1,4 +1,4 @@
-package com.melo.bets.domain.exception.custom;
+package com.melo.bets.domain.exception.payment;
 
 import java.util.UUID;
 

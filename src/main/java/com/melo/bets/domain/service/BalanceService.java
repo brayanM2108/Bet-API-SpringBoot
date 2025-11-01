@@ -1,7 +1,7 @@
 package com.melo.bets.domain.service;
 
 import com.melo.bets.domain.dto.user.UserBalanceDto;
-import com.melo.bets.domain.exception.custom.UserNotFoundException;
+import com.melo.bets.domain.exception.user.UserNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
