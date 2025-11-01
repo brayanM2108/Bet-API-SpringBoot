@@ -9,13 +9,14 @@ import java.util.UUID;
 public class SecurityUtils {
 
     private SecurityUtils() {
-
     }
 
     public static UUID getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication == null || !authentication.isAuthenticated()) {
+        if (authentication == null ||
+                !authentication.isAuthenticated() ||
+                "anonymousUser".equals(authentication.getPrincipal())) {
             return null;
         }
 
@@ -31,7 +32,9 @@ public class SecurityUtils {
     public static String getCurrentUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication == null || !authentication.isAuthenticated()) {
+        if (authentication == null ||
+                !authentication.isAuthenticated() ||
+                "anonymousUser".equals(authentication.getPrincipal())) {
             return null;
         }
 
@@ -41,6 +44,7 @@ public class SecurityUtils {
             return userDetailsWithId.getUsername();
         }
 
-        return principal.toString();
+        return null;
     }
+
 }
