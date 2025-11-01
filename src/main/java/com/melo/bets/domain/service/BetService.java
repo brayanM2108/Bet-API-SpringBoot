@@ -4,7 +4,7 @@ import com.melo.bets.domain.dto.bet.BetCreateDto;
 import com.melo.bets.domain.dto.bet.BetDto;
 import com.melo.bets.domain.dto.bet.BetPriceDto;
 import com.melo.bets.domain.dto.bet.BetUpdateDto;
-import com.melo.bets.domain.exception.custom.BetNotFoundException;
+import com.melo.bets.domain.exception.bet.BetNotFoundException;
 import com.melo.bets.domain.repository.IBetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

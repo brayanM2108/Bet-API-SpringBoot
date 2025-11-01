@@ -1,4 +1,4 @@
-package com.melo.bets.domain.exception.custom;
+package com.melo.bets.domain.exception.user;
 
 public class DocumentAlreadyExistsException extends RuntimeException {
     public DocumentAlreadyExistsException(String document) {

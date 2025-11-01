@@ -1,7 +1,7 @@
 package com.melo.bets.domain.service;
 
 import com.melo.bets.domain.dto.user.LoginDto;
-import com.melo.bets.domain.exception.custom.InvalidCredentialsException;
+import com.melo.bets.domain.exception.user.InvalidCredentialsException;
 import com.melo.bets.domain.repository.IUserRepository;
 import com.melo.bets.security.jwt.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;

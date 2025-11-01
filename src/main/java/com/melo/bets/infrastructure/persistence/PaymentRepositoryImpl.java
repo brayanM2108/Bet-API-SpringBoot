@@ -3,7 +3,7 @@ package com.melo.bets.infrastructure.persistence;
 
 import com.melo.bets.domain.dto.payment.PaymentCreateDto;
 import com.melo.bets.domain.dto.payment.PaymentDto;
-import com.melo.bets.domain.exception.custom.PaymentNotFoundException;
+import com.melo.bets.domain.exception.payment.PaymentNotFoundException;
 import com.melo.bets.domain.repository.IPaymentRepository;
 import com.melo.bets.infrastructure.persistence.crud.PaymentCrudRepository;
 import com.melo.bets.infrastructure.persistence.entity.PaymentEntity;

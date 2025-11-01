@@ -1,6 +1,12 @@
 package com.melo.bets.web.exception;
 
-import com.melo.bets.domain.exception.custom.*;
+import com.melo.bets.domain.exception.bet.BetAlreadyPurchasedException;
+import com.melo.bets.domain.exception.bet.BetNotFoundException;
+import com.melo.bets.domain.exception.bet.BetNotUpdateException;
+import com.melo.bets.domain.exception.custom.CategoryNotExistException;
+import com.melo.bets.domain.exception.custom.CompetitionNotExistException;
+import com.melo.bets.domain.exception.payment.PaymentNotFoundException;
+import com.melo.bets.domain.exception.user.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,6 +69,7 @@ public class RestExceptionHandler {
     @ExceptionHandler({
             EmailAlreadyExistsException.class,
             DocumentAlreadyExistsException.class,
+            BetAlreadyPurchasedException.class,
     })
     public ResponseEntity<ErrorResponse> handleUniqueRestriccionException(HttpServletRequest request, Exception ex) {
         ErrorResponse error = new ErrorResponse(
