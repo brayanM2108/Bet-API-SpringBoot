@@ -20,7 +20,7 @@ public interface IBetRepository {
 
     Optional <BetPriceDto> findPrice(UUID id);
 
-    BetCreateDto save(BetCreateDto bet, MultipartFile file);
+    BetCreateDto save(BetCreateDto bet, UUID userId, MultipartFile file);
 
     Optional <BetDto> update(UUID id, BetUpdateDto bet);
 

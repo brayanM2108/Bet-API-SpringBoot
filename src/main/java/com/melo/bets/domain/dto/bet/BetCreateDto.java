@@ -29,8 +29,5 @@ public record BetCreateDto(
         @NotNull(message = "the competition id is required")
         UUID competitionId,
 
-        @NotNull(message = "the user id is required")
-        UUID userId,
-
         String image
 ) {}

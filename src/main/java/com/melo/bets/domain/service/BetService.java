@@ -48,7 +48,7 @@ public class BetService {
         return betRepository.findAllAvailable(pageRequest);
     }
 
-    public BetCreateDto saveBet(BetCreateDto bet, MultipartFile imageFile) throws Exception {
+    public BetCreateDto saveBet(BetCreateDto bet, UUID userId, MultipartFile imageFile) throws Exception {
 
         // 1. Upload image
         String imageUrl = storageImageService.processAndUploadImage(imageFile, "bets");
@@ -63,12 +63,11 @@ public class BetService {
                 bet.date(),
                 bet.betType(),
                 bet.competitionId(),
-                bet.userId(),
                 imageUrl
         );
 
         // 3. Save DTO and Image
-        return betRepository.save(betWithImage, imageFile);
+        return betRepository.save(betWithImage, userId, imageFile);
     }
 
     public Optional<BetPriceDto> getPrice(UUID id) {
