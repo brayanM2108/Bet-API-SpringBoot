@@ -22,6 +22,7 @@ public interface BetMapper {
 
 
     // --- Mappers for create bets ---
+    @Mapping(target = "userId", ignore = true)
     @Mapping(target = "result", expression = "java(\"pendiente\")")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "creator", ignore = true)

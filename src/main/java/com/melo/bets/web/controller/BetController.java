@@ -4,6 +4,7 @@ import com.melo.bets.domain.dto.bet.BetCreateDto;
 import com.melo.bets.domain.dto.bet.BetDto;
 import com.melo.bets.domain.dto.bet.BetUpdateDto;
 import com.melo.bets.domain.service.BetService;
+import com.melo.bets.security.user.UserDetailsWithId;
 import com.melo.bets.web.exception.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -190,10 +192,12 @@ public class BetController {
     public ResponseEntity<BetCreateDto> save(
             @Parameter(description = "Bet data", required = true)
             @Valid @RequestPart("bet") BetCreateDto bet,
+            @AuthenticationPrincipal UserDetailsWithId userDetails,
             @Parameter(description = "Optional image file")
             @RequestPart(value = "imageFile", required = false) MultipartFile imageFile
     ) throws Exception {
-        return new ResponseEntity<>(betService.saveBet(bet, imageFile), HttpStatus.CREATED);
+        UUID userId = userDetails.getUserId();
+        return new ResponseEntity<>(betService.saveBet(bet, userId, imageFile), HttpStatus.CREATED);
     }
 
     @Operation(

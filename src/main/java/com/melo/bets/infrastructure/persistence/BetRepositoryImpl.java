@@ -67,11 +67,12 @@ public class BetRepositoryImpl implements IBetRepository {
     }
 
     @Override
-    public BetCreateDto save(BetCreateDto bet, MultipartFile file) {
+    public BetCreateDto save(BetCreateDto bet, UUID userId, MultipartFile file) {
 
-        validateRelatedEntitiesExist(bet);
+        validateRelatedEntitiesExist(bet, userId);
 
         BetEntity betEntity = betMapper.toBetCreateEntity(bet);
+        betEntity.setUserId(userId);
 
         return betMapper.toBetCreateDto(betCrudRepository.save(betEntity));
     }
@@ -126,8 +127,8 @@ public class BetRepositoryImpl implements IBetRepository {
         }
     }
 
-    private void validateRelatedEntitiesExist(BetCreateDto bet) {
-        validateUserExists(bet.userId());
+    private void validateRelatedEntitiesExist(BetCreateDto bet ,UUID userId) {
+        validateUserExists(userId);
         validateCompetitionExists(bet.competitionId());
     }
 
